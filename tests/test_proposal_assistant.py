@@ -13,10 +13,8 @@ from agents.proposal_assistant import (
     Phase,
     ProposalAssistant,
     SUMMARY_ORDER,
-    _extract_pain_points,
-    _recommend_products,
-    _suggest_opportunities,
 )
+from lib.gtm_tools import extract_pain_points, recommend_products, suggest_opportunities
 
 
 CUSTOMER = "Acme Financial Services"
@@ -39,7 +37,7 @@ def blank_assistant():
 
 class TestToolFunctions:
     def test_extract_pain_points_finds_matches(self):
-        result = _extract_pain_points(
+        result = extract_pain_points(
             "Hybrid cloud with legacy on-prem firewalls and fragmented endpoint protection",
             industry="Financial Services",
         )
@@ -51,20 +49,20 @@ class TestToolFunctions:
             "Slow incident detection and response times",
             "Alert fatigue from disconnected security consoles",
         ]
-        result = _recommend_products(pain_points)
+        result = recommend_products(pain_points)
         assert "Cisco XDR" in result["recommendations"]
 
     def test_suggest_opportunities_batches(self):
-        result = _suggest_opportunities(CUSTOMER, batch_offset=0, batch_size=10)
+        result = suggest_opportunities(CUSTOMER, batch_offset=0, batch_size=10)
         assert len(result["opportunities"]) == 10
         assert result["has_more"] is True
 
-        result2 = _suggest_opportunities(CUSTOMER, batch_offset=10, batch_size=10)
+        result2 = suggest_opportunities(CUSTOMER, batch_offset=10, batch_size=10)
         assert len(result2["opportunities"]) == 2
         assert result2["has_more"] is False
 
     def test_suggest_opportunities_no_savm_id(self):
-        result = _suggest_opportunities(CUSTOMER)
+        result = suggest_opportunities(CUSTOMER)
         for opp in result["opportunities"]:
             assert "savm_id" not in opp
 

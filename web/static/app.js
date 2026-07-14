@@ -1,4 +1,5 @@
 let sessionId = null;
+let currentWorkflow = "proposal";
 
 const startPanel = document.getElementById("start-panel");
 const chat = document.getElementById("chat");
@@ -6,6 +7,8 @@ const messages = document.getElementById("messages");
 const chatForm = document.getElementById("chat-form");
 const messageInput = document.getElementById("message-input");
 const customerInput = document.getElementById("customer-input");
+const workflowSelect = document.getElementById("workflow-select");
+const workflowDesc = document.getElementById("workflow-desc");
 const startBtn = document.getElementById("start-btn");
 const summaryPanel = document.getElementById("summary-panel");
 const summaryList = document.getElementById("summary-list");
@@ -13,6 +16,11 @@ const jsonPanel = document.getElementById("json-panel");
 const jsonOutput = document.getElementById("json-output");
 const generateBtn = document.getElementById("generate-btn");
 const downloadLink = document.getElementById("download-link");
+
+function updateWorkflowDesc() {
+  const wf = (window.WORKFLOWS || []).find((w) => w.id === workflowSelect.value);
+  workflowDesc.textContent = wf ? wf.description : "";
+}
 
 function addMessage(text, role) {
   const el = document.createElement("div");
@@ -38,6 +46,7 @@ function showSummary(summary) {
 function handleResponse(data) {
   addMessage(data.message, "assistant");
   if (data.summary) showSummary(data.summary);
+  if (data.generate_label) generateBtn.textContent = data.generate_label;
   if (data.json_output) {
     jsonOutput.textContent = JSON.stringify(data.json_output, null, 2);
     jsonPanel.hidden = false;
@@ -57,13 +66,20 @@ async function api(path, body) {
   return data;
 }
 
+workflowSelect.addEventListener("change", updateWorkflowDesc);
+updateWorkflowDesc();
+
 startBtn.addEventListener("click", async () => {
   const customer = customerInput.value.trim();
   if (!customer) return;
 
+  currentWorkflow = workflowSelect.value;
   startBtn.disabled = true;
   try {
-    const data = await api("/api/session/start", { customer_account: customer });
+    const data = await api("/api/session/start", {
+      customer_account: customer,
+      workflow: currentWorkflow,
+    });
     sessionId = data.session_id;
     startPanel.hidden = true;
     chat.hidden = false;
@@ -108,7 +124,7 @@ generateBtn.addEventListener("click", async () => {
     downloadLink.href = data.download_url;
     downloadLink.textContent = `Download ${data.filename}`;
     downloadLink.hidden = false;
-    addMessage(`Proposal document ready: ${data.filename}`, "assistant");
+    addMessage(`Document ready: ${data.filename}`, "assistant");
   } catch (err) {
     alert(err.message);
     generateBtn.disabled = false;

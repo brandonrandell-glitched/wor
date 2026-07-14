@@ -13,10 +13,8 @@ from story_library.i18n import labels_for
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = ROOT / "output"
 
-PROOF_TOPICS = {
-    "Cisco Secure Access": "zero-trust-adoption",
-    "Cisco XDR": "deployment-speed",
-}
+from lib.gtm_tools import PROOF_TOPICS_BY_PRODUCT
+from lib.public_content import get_offer
 
 SECURITY_TECHNOLOGIES = {
     "Cisco Secure Access",
@@ -67,9 +65,13 @@ def _build_sections(data: dict[str, Any]) -> list[tuple[str, str]]:
     if proof_section:
         sections.append((labels["proof_points"], proof_section))
 
-    competitive = _competitive_positioning(technologies, labels)
+    competitive = _competitive_positioning(technologies, labels, data.get("Competitors"))
     if competitive:
         sections.append((labels["competitive_positioning"], competitive))
+
+    offer_section = _commercial_offer(data, technologies, labels)
+    if offer_section:
+        sections.append((labels.get("commercial_offer", "Commercial Offer"), offer_section))
 
     sections.extend([
         (labels["recommended_next_steps"], _format_value(next_steps, labels["not_provided"])),
@@ -142,7 +144,7 @@ def _proof_points(technologies: Any, labels: dict[str, str]) -> str:
     techs = technologies if isinstance(technologies, list) else [technologies]
     lines = []
     for tech in techs:
-        topic = PROOF_TOPICS.get(tech)
+        topic = PROOF_TOPICS_BY_PRODUCT.get(tech)
         if not topic:
             continue
         point = get_proof_point(topic)
@@ -154,15 +156,20 @@ def _proof_points(technologies: Any, labels: dict[str, str]) -> str:
     return "\n".join(lines)
 
 
-def _competitive_positioning(technologies: Any, labels: dict[str, str]) -> str:
+def _competitive_positioning(
+    technologies: Any,
+    labels: dict[str, str],
+    competitors: Any = None,
+) -> str:
     from lib.public_content import get_competitive
 
     techs = technologies if isinstance(technologies, list) else [technologies]
     if not any(t in SECURITY_TECHNOLOGIES for t in techs):
         return ""
 
+    names = competitors if isinstance(competitors, list) and competitors else DEFAULT_COMPETITORS
     lines = []
-    for competitor in DEFAULT_COMPETITORS:
+    for competitor in names:
         entry = get_competitive(competitor)
         if not entry:
             continue
@@ -171,6 +178,20 @@ def _competitive_positioning(technologies: Any, labels: dict[str, str]) -> str:
             lines.append(f"- {point}")
         lines.append("")
     return "\n".join(lines).strip()
+
+
+def _commercial_offer(data: dict[str, Any], technologies: Any, labels: dict[str, str]) -> str:
+    techs = technologies if isinstance(technologies, list) else [technologies]
+    if not any(t in SECURITY_TECHNOLOGIES for t in techs):
+        return ""
+    offer_type = data.get("Offer Type", "security-suite")
+    offer = get_offer(offer_type)
+    if not offer:
+        return ""
+    lines = [offer.get("scope", "")]
+    if offer.get("economics"):
+        lines.append(offer["economics"])
+    return "\n".join(line for line in lines if line)
 
 
 def generate_proposal(

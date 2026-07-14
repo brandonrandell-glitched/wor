@@ -3,21 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proposal Assistant</title>
+  <title>GTM Agent Ecosystem</title>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
   <div class="layout">
     <header class="header">
       <div>
-        <h1>Proposal Assistant</h1>
-        <p class="subtitle">Guided intake using public Cisco content and your inputs</p>
+        <h1>GTM Agent Ecosystem</h1>
+        <p class="subtitle">Proposal, discovery prep, and competitive briefs — public content only</p>
       </div>
       <span class="badge" id="mode-badge">Public content</span>
     </header>
 
     <main class="main">
       <section class="start-panel" id="start-panel">
+        <label for="workflow-select">Workflow</label>
+        <select id="workflow-select">
+          {% for wf in workflows %}
+          <option value="{{ wf.id }}">{{ wf.label }}</option>
+          {% endfor %}
+        </select>
+        <p class="hint workflow-desc" id="workflow-desc"></p>
+
         <label for="customer-input">Customer account name</label>
         <div class="start-row">
           <input
@@ -42,8 +50,8 @@
         <div class="json-panel" id="json-panel" hidden>
           <h3>Confirmed Output</h3>
           <pre id="json-output"></pre>
-          <button id="generate-btn" type="button">Generate Proposal Document</button>
-          <a id="download-link" hidden>Download proposal</a>
+          <button id="generate-btn" type="button">Generate Document</button>
+          <a id="download-link" hidden>Download document</a>
         </div>
 
         <form class="input-row" id="chat-form">
@@ -59,6 +67,9 @@
     </main>
   </div>
 
+  <script>
+    window.WORKFLOWS = {{ workflows | tojson }};
+  </script>
   <script src="/static/app.js"></script>
 </body>
 </html>

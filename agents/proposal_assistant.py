@@ -6,12 +6,15 @@ import json
 from copy import deepcopy
 from dataclasses import dataclass, field
 from enum import Enum
-from pathlib import Path
 from typing import Any
 
-ROOT = Path(__file__).resolve().parent.parent
-SALESFORCE_FIXTURE = ROOT / "fixtures" / "salesforce_customer.json"
-TOOLS_FIXTURE = ROOT / "fixtures" / "proposal_tools_data.json"
+from agents.base import parse_list_input
+from lib.gtm_tools import (
+    extract_pain_points,
+    get_customer_context,
+    recommend_products,
+    suggest_opportunities,
+)
 
 VALID_LANGUAGES = {
     "english",
@@ -162,15 +165,7 @@ class ProposalAssistant:
         return AssistantResponse(message="Let's continue with the proposal.", phase=self.phase)
 
     def _load_initial_data(self, customer_account: str) -> None:
-        if not SALESFORCE_FIXTURE.exists():
-            self._initial_data = {}
-            return
-        with open(SALESFORCE_FIXTURE) as f:
-            raw = json.load(f)
-        if raw.get("customer_account") != customer_account:
-            self._initial_data = {}
-            return
-        self._initial_data = {k: v for k, v in raw.items() if k != "savm_id"}
+        self._initial_data = get_customer_context(customer_account) or {}
 
     def _prefill_from_data(self) -> None:
         mapping = {
@@ -268,7 +263,7 @@ class ProposalAssistant:
                 phase=Phase.PAIN_POINTS_CONFIRM,
             )
 
-        result = _extract_pain_points(
+        result = extract_pain_points(
             infra,
             self.collected.get("industry"),
             self.collected.get("organization_size"),
@@ -319,11 +314,11 @@ class ProposalAssistant:
 
         if "customer_pain_points" in self.collected and lower != "use":
             existing = self.collected["customer_pain_points"]
-            new_points = _parse_list_input(text)
+            new_points = parse_list_input(text)
             self.collected["customer_pain_points"] = existing + new_points
             return self._enter_technologies_phase()
 
-        new_points = _parse_list_input(text)
+        new_points = parse_list_input(text)
         if not new_points:
             return AssistantResponse(
                 message="Please provide at least one pain point.",
@@ -351,7 +346,7 @@ class ProposalAssistant:
 
     def _run_product_recommendations(self) -> AssistantResponse:
         pain_points = self.collected.get("customer_pain_points", [])
-        result = _recommend_products(pain_points)
+        result = recommend_products(pain_points)
         self.pending_technologies = result["recommendations"]
         self.phase = Phase.TECHNOLOGIES_SELECT
 
@@ -385,7 +380,7 @@ class ProposalAssistant:
             self.phase = Phase.TECHNOLOGIES_SELECT
             return self._run_product_recommendations()
 
-        additions = _parse_list_input(text)
+        additions = parse_list_input(text)
         if additions:
             merged = list(self.pending_technologies)
             for tech in additions:
@@ -406,7 +401,7 @@ class ProposalAssistant:
             self.collected["cisco_technologies"] = list(self.pending_technologies)
             return self._enter_post_infra_flow()
 
-        selected = _parse_list_input(text)
+        selected = parse_list_input(text)
         if not selected:
             return AssistantResponse(
                 message=(
@@ -541,7 +536,7 @@ class ProposalAssistant:
         return self._advance_post_infra()
 
     def _enter_deal_suggest(self) -> AssistantResponse:
-        result = _suggest_opportunities(self.customer_account, self.deal_batch_offset)
+        result = suggest_opportunities(self.customer_account, self.deal_batch_offset)
         self.deal_options = result["opportunities"]
         self.phase = Phase.DEAL_SELECT
 
@@ -678,9 +673,9 @@ class ProposalAssistant:
             if remainder_lower.startswith(prefix):
                 value = remainder[len(label) + 4 :].strip()
                 if key == "customer_pain_points":
-                    self.collected[key] = _parse_list_input(value)
+                    self.collected[key] = parse_list_input(value)
                 elif key == "cisco_technologies":
-                    self.collected[key] = _parse_list_input(value)
+                    self.collected[key] = parse_list_input(value)
                 elif key == "language":
                     if value.lower() not in VALID_LANGUAGES:
                         return False
@@ -775,19 +770,6 @@ class ProposalAssistant:
         return OUT_OF_CONTEXT_REDIRECT.format(topic=topic)
 
 
-def _parse_list_input(text: str) -> list[str]:
-    text = text.strip()
-    if not text:
-        return []
-    if ";" in text:
-        parts = text.split(";")
-    elif "\n" in text:
-        parts = text.split("\n")
-    else:
-        parts = text.split(",")
-    return [p.strip().lstrip("•").strip() for p in parts if p.strip()]
-
-
 def _title_language(text: str) -> str:
     mapping = {
         "english": "English",
@@ -799,76 +781,3 @@ def _title_language(text: str) -> str:
         "simplified chinese": "Simplified Chinese",
     }
     return mapping.get(text.lower(), text)
-
-
-def _extract_pain_points(
-    current_infrastructure: str,
-    industry: str | None = None,
-    organization_size: str | None = None,
-) -> dict[str, Any]:
-    with open(TOOLS_FIXTURE) as f:
-        data = json.load(f)
-
-    text = current_infrastructure.lower()
-    if industry:
-        text += " " + industry.lower()
-    if organization_size:
-        text += " " + organization_size.lower()
-
-    found = []
-    for pattern in data["pain_point_patterns"]:
-        if any(kw in text for kw in pattern["keywords"]):
-            found.extend(pattern["pain_points"])
-
-    seen: set[str] = set()
-    unique = []
-    for pp in found:
-        if pp not in seen:
-            seen.add(pp)
-            unique.append(pp)
-
-    return {"pain_points": unique, "count": len(unique)}
-
-
-def _recommend_products(
-    pain_points: list[str],
-    existing_technologies: list[str] | None = None,
-) -> dict[str, Any]:
-    with open(TOOLS_FIXTURE) as f:
-        data = json.load(f)
-
-    recs = set(existing_technologies or [])
-    mapping = data["product_recommendations"]
-
-    for pp in pain_points:
-        for product in mapping.get(pp, []):
-            recs.add(product)
-
-    if not recs:
-        recs = set(data["default_recommendations"])
-
-    return {"recommendations": sorted(recs), "count": len(recs)}
-
-
-def _suggest_opportunities(
-    customer_account: str,
-    batch_offset: int = 0,
-    batch_size: int = 10,
-) -> dict[str, Any]:
-    with open(SALESFORCE_FIXTURE) as f:
-        data = json.load(f)
-
-    if data.get("customer_account") != customer_account:
-        return {"opportunities": [], "total": 0, "has_more": False}
-
-    all_opps = [
-        {k: v for k, v in opp.items() if k != "savm_id"}
-        for opp in data.get("opportunities", [])
-    ]
-    batch = all_opps[batch_offset : batch_offset + batch_size]
-    return {
-        "opportunities": batch,
-        "total": len(all_opps),
-        "has_more": batch_offset + batch_size < len(all_opps),
-        "next_offset": batch_offset + batch_size if batch_offset + batch_size < len(all_opps) else None,
-    }

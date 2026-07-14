@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Interactive CLI for the proposal-building assistant."""
+"""Interactive CLI for GTM workflows."""
 
 import argparse
 import sys
@@ -8,23 +8,38 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from agents.proposal_assistant import ProposalAssistant
+from agents.router import GTMRouter
+from story_library.competitive_brief import generate_competitive_brief
+from story_library.discovery_brief import generate_discovery_brief
 from story_library.generator import generate_proposal
+
+GENERATORS = {
+    "proposal": generate_proposal,
+    "discovery": generate_discovery_brief,
+    "competitive": generate_competitive_brief,
+}
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Proposal-building assistant CLI")
+    parser = argparse.ArgumentParser(description="GTM agent ecosystem CLI")
     parser.add_argument("customer_account", nargs="+", help="Customer account name")
+    parser.add_argument(
+        "--workflow",
+        choices=["proposal", "discovery", "competitive"],
+        default="proposal",
+        help="Workflow to run (default: proposal)",
+    )
     parser.add_argument(
         "--generate",
         action="store_true",
-        help="Generate proposal document after intake completes",
+        help="Generate document after intake completes",
     )
     args = parser.parse_args()
 
     customer = " ".join(args.customer_account)
-    assistant = ProposalAssistant()
-    resp = assistant.start(customer)
+    router = GTMRouter()
+    session_id = "cli"
+    resp = router.start(args.workflow, customer, session_id)
     print(resp.message)
 
     while resp.awaiting_input:
@@ -33,12 +48,13 @@ def main():
         except (EOFError, KeyboardInterrupt):
             print("\nSession ended.")
             break
-        resp = assistant.process_input(user_input)
+        resp = router.process(session_id, user_input)
         print(f"\n{resp.message}")
         if resp.done:
             if args.generate and resp.json_output:
-                path = generate_proposal(resp.json_output)
-                print(f"\nProposal document saved to: {path}")
+                generator = GENERATORS[args.workflow]
+                path = generator(resp.json_output)
+                print(f"\nDocument saved to: {path}")
             break
 
 
