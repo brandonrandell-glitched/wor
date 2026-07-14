@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposal Assistant</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="layout">
+    <header class="header">
+      <div>
+        <h1>Proposal Assistant</h1>
+        <p class="subtitle">Guided intake using public Cisco content and your inputs</p>
+      </div>
+      <span class="badge" id="mode-badge">Public content</span>
+    </header>
+
+    <main class="main">
+      <section class="start-panel" id="start-panel">
+        <label for="customer-input">Customer account name</label>
+        <div class="start-row">
+          <input
+            id="customer-input"
+            type="text"
+            placeholder="e.g. Acme Financial Services"
+            value="Acme Financial Services"
+          />
+          <button id="start-btn" type="button">Start</button>
+        </div>
+        <p class="hint">Uses public Cisco product info plus what you provide. No API keys or logins required. Try <code>Acme Financial Services</code> for a demo scenario.</p>
+      </section>
+
+      <section class="chat" id="chat" hidden>
+        <div class="messages" id="messages"></div>
+
+        <div class="summary-panel" id="summary-panel" hidden>
+          <h3>Review Summary</h3>
+          <dl id="summary-list"></dl>
+        </div>
+
+        <div class="json-panel" id="json-panel" hidden>
+          <h3>Confirmed Output</h3>
+          <pre id="json-output"></pre>
+          <button id="generate-btn" type="button">Generate Proposal Document</button>
+          <a id="download-link" hidden>Download proposal</a>
+        </div>
+
+        <form class="input-row" id="chat-form">
+          <input
+            id="message-input"
+            type="text"
+            placeholder="Type your response..."
+            autocomplete="off"
+          />
+          <button type="submit">Send</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

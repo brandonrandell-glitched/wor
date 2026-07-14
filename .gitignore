@@ -1,0 +1,6 @@
+.env
+fixtures/real_*.json
+__pycache__/
+*.pyc
+.venv/
+output/

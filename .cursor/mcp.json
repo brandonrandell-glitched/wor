@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "salesforce": {
+      "command": "python3",
+      "args": ["${workspaceFolder}/mcp_servers/salesforce_mcp.py"],
+      "cwd": "${workspaceFolder}"
+    },
+    "proposal-tools": {
+      "command": "python3",
+      "args": ["${workspaceFolder}/mcp_servers/proposal_tools_mcp.py"],
+      "cwd": "${workspaceFolder}"
+    },
+    "salesconnect": {
+      "command": "python3",
+      "args": ["${workspaceFolder}/mcp_servers/salesconnect_mcp.py"],
+      "cwd": "${workspaceFolder}"
+    }
+  }
+}

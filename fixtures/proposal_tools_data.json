@@ -1,0 +1,51 @@
+{
+  "pain_point_patterns": [
+    {
+      "keywords": ["firewall", "legacy", "on-prem", "fragmented"],
+      "pain_points": [
+        "Inconsistent security policy enforcement across hybrid environments",
+        "High operational overhead managing disparate security tools",
+        "Limited visibility into east-west traffic and lateral movement"
+      ]
+    },
+    {
+      "keywords": ["endpoint", "protection", "edr"],
+      "pain_points": [
+        "Slow incident detection and response times",
+        "Gaps in endpoint coverage across remote workforce",
+        "Alert fatigue from disconnected security consoles"
+      ]
+    },
+    {
+      "keywords": ["cloud", "hybrid", "multi-cloud"],
+      "pain_points": [
+        "Shadow IT and ungoverned cloud application usage",
+        "Inconsistent access controls between on-prem and cloud workloads",
+        "Compliance gaps in data residency and audit trails"
+      ]
+    },
+    {
+      "keywords": ["zero trust", "identity", "access"],
+      "pain_points": [
+        "Over-reliance on perimeter-based security models",
+        "Insufficient identity verification for privileged users",
+        "Difficulty enforcing least-privilege access at scale"
+      ]
+    }
+  ],
+  "product_recommendations": {
+    "Inconsistent security policy enforcement across hybrid environments": ["Cisco Secure Access", "Cisco Firewall"],
+    "High operational overhead managing disparate security tools": ["Cisco XDR", "Cisco Secure Access"],
+    "Limited visibility into east-west traffic and lateral movement": ["Cisco XDR", "Cisco Secure Network Analytics"],
+    "Slow incident detection and response times": ["Cisco XDR", "Cisco Secure Endpoint"],
+    "Gaps in endpoint coverage across remote workforce": ["Cisco Secure Endpoint", "Cisco Secure Access"],
+    "Alert fatigue from disconnected security consoles": ["Cisco XDR"],
+    "Shadow IT and ungoverned cloud application usage": ["Cisco Secure Access", "Cisco Umbrella"],
+    "Inconsistent access controls between on-prem and cloud workloads": ["Cisco Secure Access", "Cisco Duo"],
+    "Compliance gaps in data residency and audit trails": ["Cisco Secure Access", "Cisco ISE"],
+    "Over-reliance on perimeter-based security models": ["Cisco Secure Access", "Cisco Duo"],
+    "Insufficient identity verification for privileged users": ["Cisco Duo", "Cisco ISE"],
+    "Difficulty enforcing least-privilege access at scale": ["Cisco Secure Access", "Cisco ISE"]
+  },
+  "default_recommendations": ["Cisco Secure Access", "Cisco XDR"]
+}

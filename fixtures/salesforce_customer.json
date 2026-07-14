@@ -1,0 +1,28 @@
+{
+  "customer_account": "Acme Financial Services",
+  "industry": "Financial Services",
+  "org_size": "5000-10000",
+  "deal_id": "OPP-2025-78432",
+  "cisco_technologies_proposed": ["Cisco Secure Access", "Cisco XDR"],
+  "current_infrastructure": "Hybrid cloud with legacy on-prem firewalls and fragmented endpoint protection",
+  "savm_id": "SAVM-INTERNAL-99102",
+  "opportunities": [
+    {"deal_id": "OPP-2025-78432", "name": "Zero Trust Modernization", "stage": "Proposal", "amount": 450000},
+    {"deal_id": "OPP-2025-62109", "name": "Network Segmentation Refresh", "stage": "Discovery", "amount": 180000},
+    {"deal_id": "OPP-2025-55817", "name": "SOC Automation Initiative", "stage": "Qualification", "amount": 320000},
+    {"deal_id": "OPP-2025-44103", "name": "Cloud Security Posture", "stage": "Proposal", "amount": 275000},
+    {"deal_id": "OPP-2025-33928", "name": "Identity Governance Expansion", "stage": "Discovery", "amount": 95000},
+    {"deal_id": "OPP-2025-22841", "name": "SD-WAN Branch Rollout", "stage": "Closed Won", "amount": 510000},
+    {"deal_id": "OPP-2025-11756", "name": "Email Security Upgrade", "stage": "Qualification", "amount": 64000},
+    {"deal_id": "OPP-2025-00983", "name": "Data Center Firewall Refresh", "stage": "Proposal", "amount": 390000},
+    {"deal_id": "OPP-2024-99872", "name": "VPN Consolidation", "stage": "Closed Lost", "amount": 120000},
+    {"deal_id": "OPP-2024-88761", "name": "Threat Intelligence Platform", "stage": "Discovery", "amount": 155000},
+    {"deal_id": "OPP-2024-77650", "name": "Privileged Access Management", "stage": "Qualification", "amount": 88000},
+    {"deal_id": "OPP-2024-66539", "name": "IoT Security Assessment", "stage": "Discovery", "amount": 72000}
+  ],
+  "previous_proposal": {
+    "language": "English",
+    "proposal_output_format": "word",
+    "proposal_form_length": "long"
+  }
+}

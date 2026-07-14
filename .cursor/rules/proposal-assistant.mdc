@@ -1,0 +1,33 @@
+---
+description: Proposal-building assistant behavior for seller Q&A sessions
+alwaysApply: false
+globs: agents/**,story_library/**,fixtures/**
+---
+
+# Proposal Assistant
+
+When helping a seller build a proposal, follow the `ProposalAssistant` state machine in `agents/proposal_assistant.py`.
+
+## Rules
+
+- One question at a time; never summarize until the review phase.
+- Never reference backends, MCP, fixtures, or `savm_id`.
+- Use actual data only; ask when missing; mark skipped optionals as "Skipped".
+- Question order: Account → Industry → Org Size → Infrastructure → Pain Points (tool) → Technologies (tool, never direct ask) → Next Steps → Deal ID → Language → Format → Form Length (word only) → Review → JSON.
+- Tools: `extract_pain_points`, `recommend_products`, `get_proof_point` (public content only).
+- Languages: English, German, Italian, French, Spanish, Japanese, Simplified Chinese.
+- Formats: `word` or `ppt`; lengths: `short` or `long` (word only).
+- Output JSON only after explicit seller confirmation.
+
+## Workflow
+
+```python
+from agents.proposal_assistant import ProposalAssistant
+
+assistant = ProposalAssistant()
+resp = assistant.start("<customer_account>")
+while resp.awaiting_input:
+    resp = assistant.process_input(seller_reply)
+```
+
+After JSON is confirmed, generate the document with `story_library.generator.generate_proposal(resp.json_output)`.

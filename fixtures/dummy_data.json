@@ -1,0 +1,30 @@
+{
+  "proof_points": {
+    "zero-trust-adoption": {
+      "topic": "zero-trust-adoption",
+      "product": "Cisco Secure Access",
+      "value": "78% of enterprises accelerating zero-trust programs",
+      "source": "Cisco Cybersecurity Readiness Index 2025",
+      "classification": "Public",
+      "age_days": 120
+    },
+    "deployment-speed": {
+      "topic": "deployment-speed",
+      "product": "Cisco XDR",
+      "value": "40% faster mean time to detect",
+      "source": "Internal benchmark study Q1 2025",
+      "classification": "Internal",
+      "age_days": 45
+    },
+    "margin-guidance": {
+      "topic": "margin-guidance",
+      "product": "Cisco Networking",
+      "value": "62% target gross margin",
+      "source": "Finance model v3",
+      "classification": "HighlyConf",
+      "age_days": 10
+    }
+  },
+  "competitive": {},
+  "offers": {}
+}

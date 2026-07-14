@@ -1,0 +1,116 @@
+{
+  "proof_points": {
+    "zero-trust-adoption": {
+      "topic": "zero-trust-adoption",
+      "product": "Cisco Secure Access",
+      "value": "78% of enterprises are accelerating zero-trust programs",
+      "source": "Cisco Cybersecurity Readiness Index 2025",
+      "classification": "Public",
+      "age_days": 120,
+      "public_url": "https://www.cisco.com/c/en/us/products/security/secure-access/index.html"
+    },
+    "deployment-speed": {
+      "topic": "deployment-speed",
+      "product": "Cisco XDR",
+      "value": "Organizations are prioritizing faster threat detection and unified response across the SOC",
+      "source": "Cisco Security portfolio overview",
+      "classification": "Public",
+      "age_days": 90,
+      "public_url": "https://www.cisco.com/c/en/us/products/security/xdr/index.html"
+    },
+    "secure-networking": {
+      "topic": "secure-networking",
+      "product": "Cisco Networking",
+      "value": "Modern networks require integrated security across campus, branch, and cloud",
+      "source": "Cisco Networking public documentation",
+      "classification": "Public",
+      "age_days": 180,
+      "public_url": "https://www.cisco.com/c/en/us/solutions/enterprise-networks/index.html"
+    }
+  },
+  "product_summaries": {
+    "Cisco Secure Access": {
+      "summary": "Cloud-delivered security that provides secure access to applications and internet destinations with zero-trust principles.",
+      "public_url": "https://www.cisco.com/c/en/us/products/security/secure-access/index.html"
+    },
+    "Cisco XDR": {
+      "summary": "Extended detection and response that unifies visibility and accelerates investigation across the security stack.",
+      "public_url": "https://www.cisco.com/c/en/us/products/security/xdr/index.html"
+    },
+    "Cisco Secure Endpoint": {
+      "summary": "Next-generation antivirus and endpoint detection and response for laptops, servers, and mobile devices.",
+      "public_url": "https://www.cisco.com/c/en/us/products/security/endpoint-security/index.html"
+    },
+    "Cisco Duo": {
+      "summary": "Multi-factor authentication and device trust to verify user identity before granting access.",
+      "public_url": "https://www.cisco.com/c/en/us/products/security/duo/index.html"
+    },
+    "Cisco ISE": {
+      "summary": "Identity-based network access control and policy enforcement across wired, wireless, and VPN.",
+      "public_url": "https://www.cisco.com/c/en/us/products/security/identity-services-engine/index.html"
+    },
+    "Cisco Umbrella": {
+      "summary": "Cloud security service that delivers DNS-layer protection and secure web gateway capabilities.",
+      "public_url": "https://www.cisco.com/c/en/us/products/security/umbrella/index.html"
+    },
+    "Cisco Firewall": {
+      "summary": "Network firewall platforms for perimeter and data-center segmentation with threat prevention.",
+      "public_url": "https://www.cisco.com/c/en/us/products/security/firewalls/index.html"
+    },
+    "Cisco Secure Network Analytics": {
+      "summary": "Network visibility and analytics to detect threats using telemetry from the network infrastructure.",
+      "public_url": "https://www.cisco.com/c/en/us/products/security/secure-network-analytics/index.html"
+    }
+  },
+  "competitive": {
+    "Palo Alto Networks": {
+      "competitor": "Palo Alto Networks",
+      "motion": "sase",
+      "positioning": [
+        "Cisco Secure Access delivers converged networking and security in a cloud-native model.",
+        "Unified policy and visibility across users, devices, and workloads reduces tool sprawl.",
+        "Integrated Cisco Security Cloud approach connects network, endpoint, and identity controls."
+      ],
+      "public_url": "https://www.cisco.com/c/en/us/products/security/secure-access/index.html",
+      "classification": "Public"
+    },
+    "Zscaler": {
+      "competitor": "Zscaler",
+      "motion": "zero-trust",
+      "positioning": [
+        "Cisco provides zero-trust access with integrated network intelligence and identity context.",
+        "Secure Access combines SWG, ZTNA, and DNS security in a single policy framework.",
+        "Cisco portfolio spans campus, branch, data center, and cloud for consistent enforcement."
+      ],
+      "public_url": "https://www.cisco.com/c/en/us/products/security/secure-access/index.html",
+      "classification": "Public"
+    },
+    "Fortinet": {
+      "competitor": "Fortinet",
+      "motion": "network-security",
+      "positioning": [
+        "Cisco integrates firewall, identity, and network infrastructure under one architecture.",
+        "Secure Network Analytics adds behavioral visibility beyond traditional NGFW policies.",
+        "Cisco Security Cloud connects detection, response, and access control across the estate."
+      ],
+      "public_url": "https://www.cisco.com/c/en/us/products/security/firewalls/index.html",
+      "classification": "Public"
+    }
+  },
+  "offers": {
+    "security-suite": {
+      "offer_type": "security-suite",
+      "scope": "Bundled Cisco security capabilities across access, endpoint, and detection and response.",
+      "economics": "Flexible licensing options aligned to user, device, and workload consumption models.",
+      "classification": "Public",
+      "public_url": "https://www.cisco.com/c/en/us/products/security/index.html"
+    },
+    "enterprise-agreement": {
+      "offer_type": "enterprise-agreement",
+      "scope": "Enterprise-wide Cisco software and services alignment across networking and security.",
+      "economics": "Simplified procurement and lifecycle management through an enterprise licensing framework.",
+      "classification": "Public",
+      "public_url": "https://www.cisco.com/c/en/us/buy/enterprise-software-agreement.html"
+    }
+  }
+}
