@@ -1,0 +1,66 @@
+{
+  "_notice": "PUBLIC LENS - SAMPLE DATA ONLY. All partners and deals below are fictional, for demonstrating the mechanics. On the internal rebuild, delete these records and load real partner data there. Do not enter real partner names, PVI scores, or deal values in this public copy.",
+  "partners": {
+    "maple-ridge-networks-sample": {
+      "name": "Maple Ridge Networks (SAMPLE)",
+      "created_at": "2026-07-13T00:10:00",
+      "updated_at": "2026-07-13T00:10:00",
+      "tier": 2,
+      "path": "A - Meraki-led",
+      "pvi": 4.5,
+      "black_belt_pct": 30,
+      "disti_rep": "J. Doe (sample disti)",
+      "notes": "Fictional example: MSP with a Meraki base across Ontario school boards. Working PVI 4.5 toward the 5.0 rebate floor.",
+      "touches": [
+        {"at": "2026-06-20T10:00:00", "note": "SAMPLE - Intro call: mapped Meraki install base, flagged two XDR-attach candidates."}
+      ]
+    },
+    "northstar-technology-group-sample": {
+      "name": "Northstar Technology Group (SAMPLE)",
+      "created_at": "2026-07-13T00:10:00",
+      "updated_at": "2026-07-13T00:10:00",
+      "tier": 1,
+      "path": "B - Catalyst-led",
+      "pvi": 7.6,
+      "black_belt_pct": 65,
+      "disti_rep": "",
+      "notes": "Fictional example: national VAR at Preferred status, ISE practice, ASA refresh cycle across three credit-union customers.",
+      "touches": [
+        {"at": "2026-07-08T14:00:00", "note": "SAMPLE - QBR prep sync: PVI holding at 7.6, Project Meteor deal advancing."}
+      ]
+    }
+  },
+  "deals": [
+    {
+      "key": "credit-union-asa-migration-sample",
+      "name": "Credit Union ASA Migration (SAMPLE)",
+      "partner": "northstar-technology-group-sample",
+      "stage": 50,
+      "motion": "Reignite Firewall",
+      "acv": 450000,
+      "close_date": "2026-09-30",
+      "notes": "Fictional. ASA-to-Secure-Firewall with TCF applied; PoV underway.",
+      "created_at": "2026-05-15T09:00:00",
+      "updated_at": "2026-06-28T09:00:00",
+      "stage_history": [
+        {"stage": 25, "at": "2026-05-15T09:00:00"},
+        {"stage": 50, "at": "2026-06-28T09:00:00"}
+      ]
+    },
+    {
+      "key": "school-board-xdr-attach-sample",
+      "name": "School Board XDR Attach (SAMPLE)",
+      "partner": "maple-ridge-networks-sample",
+      "stage": 25,
+      "motion": "Breach Protection by XDR",
+      "acv": 120000,
+      "close_date": "2026-10-31",
+      "notes": "Fictional. XDR on existing Meraki base; stuck awaiting security lead hire.",
+      "created_at": "2026-05-20T09:00:00",
+      "updated_at": "2026-05-30T09:00:00",
+      "stage_history": [
+        {"stage": 25, "at": "2026-05-30T09:00:00"}
+      ]
+    }
+  ]
+}

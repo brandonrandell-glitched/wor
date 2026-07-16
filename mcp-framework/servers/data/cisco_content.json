@@ -1,0 +1,641 @@
+{
+  "audiences": {
+    "tier1-leadership": {
+      "label": "Tier 1 Partner Leadership",
+      "who": "Executives and VPs at large Cisco partners with an established security practice",
+      "tone": "Board-level. Strategic, economic, concise. No feature talk.",
+      "lead_with": "Market forces (regulation, insurance, market sorting), practice economics, PVI progression to Preferred status, investment alignment (MDF against named motions)",
+      "priorities": [
+        "Practice growth and margin",
+        "PVI 7.5+ / Preferred Partner status",
+        "Quarterly joint-plan cadence with Cisco/disti",
+        "Bench capability as a scorecard driver"
+      ],
+      "avoid": [
+        "SKU-level detail",
+        "talk tracks",
+        "promotion mechanics"
+      ],
+      "format_preferences": "Short decks (8-12 slides), one idea per slide, declarative headers, a 'THE X —' kicker line per slide"
+    },
+    "t1-sellers": {
+      "label": "Tier 1 Partner Sellers (AMs & SEs)",
+      "who": "Account managers and sales engineers at established partners",
+      "tone": "Direct, tactical, punchy. What's in it for them, then how to run the motion.",
+      "lead_with": "Cisco Seller Rewards (personal payout), the five plays, talk tracks per motion, deal-reg habit, promotion math (TCF up to 85% off)",
+      "priorities": [
+        "Personal incentives first",
+        "Play-by-play talk tracks (VAR vs MSP)",
+        "Deal registration before the customer call",
+        "Trial Console / dCloud demo plumbing"
+      ],
+      "avoid": [
+        "Strategy framing",
+        "PVI mechanics beyond what pays them"
+      ],
+      "format_preferences": "Battlecard-style slides or one-pagers; objection/response tables; talk tracks verbatim"
+    },
+    "tier2-partners": {
+      "label": "Tier 2 / Distribution-Led Partners",
+      "who": "Canadian resellers and MSPs, multi-vendor bench, smaller or no Cisco Secure book",
+      "tone": "Respectful of their existing motion — 'not rebuilding, adding a layer'. Low-friction entry points.",
+      "lead_with": "Risk Advisory as the funded door-opener, firewall seeding (no user-count gate), the disti rep/SE as their first call, practice-build arc (Q1 funded engagements to Q4 named brand)",
+      "priorities": [
+        "Low/no-cost entry motions",
+        "Disti-carried support (promotion math, pre-qual, trials)",
+        "Path A/B/C fit (Meraki-led, Catalyst-led, Practice-build)",
+        "PVI 1.0 deal-reg habit up to 5.0 rebate floor"
+      ],
+      "avoid": [
+        "Assuming Cisco field coverage",
+        "enterprise-only proof points",
+        "heavy certification asks upfront"
+      ],
+      "format_preferences": "Playbook format (like From Quote to Practice): paths, plays, talk tracks, 'where it lands' examples with Canadian customer fits"
+    },
+    "disti-teams": {
+      "label": "Distributor Reps & SEs",
+      "who": "Distribution sellers and engineers who carry the partner relationship",
+      "tone": "Operational. Role clarity — what the rep carries vs what the SE carries.",
+      "lead_with": "Rep: promotion math, Ignite Hunting/Teaming/Plus, PXP/DPV views, Cisco field intro timing. SE: pre-qualification/sizing, Secure Trial Console, dCloud, post-seed deployment support.",
+      "priorities": [
+        "Partner recruitment and activation",
+        "DPV visibility on PVI and motion velocity",
+        "Being the first call before Cisco field"
+      ],
+      "avoid": [
+        "End-customer messaging",
+        "partner-internal economics"
+      ],
+      "format_preferences": "Role-split one-pagers and cadence checklists (weekly/monthly/quarterly)"
+    },
+    "customer-facing": {
+      "label": "Customer-Facing (via partners)",
+      "who": "Canadian-headquartered mid-market organisations: healthcare, credit unions, school boards, manufacturers, Crown corps. Compliance load: PHIPA, PIPEDA, OSFI, FINTRAC.",
+      "tone": "Vendor-agnostic, advisory, plain language. No product pitch in the room.",
+      "lead_with": "Their posture, not products. Regulation and insurance pressure they already feel. Clear next step with a date on it.",
+      "priorities": [
+        "A scored output they keep",
+        "Prioritised, environment-specific gaps",
+        "Actions they can take immediately",
+        "No obligation framing"
+      ],
+      "avoid": [
+        "Cisco-first framing",
+        "SKU names in discovery-stage content",
+        "FUD"
+      ],
+      "format_preferences": "Positioning cards, scored reports, 30-minute conversation formats"
+    }
+  },
+  "messaging": [
+    {
+      "category": "play",
+      "topic": "Risk Advisory (door-opener)",
+      "content": "The funded discovery motion. Turns a renewal quote into a strategic engagement. Door into every other play. Does not require customer budget — 30 minutes, scored output the customer keeps. Discovery question: \"When is the last time you had an objective, third-party view of your security posture?\"",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "play",
+      "topic": "Zero Trust Access (FY26 named)",
+      "content": "Umbrella to Cisco Secure Access at the 50-seat threshold. Hybrid workforce demand is durable. Discovery question: \"How are your users accessing apps today - VPN, ZTNA, a mix? What is working, what is breaking?\"",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "play",
+      "topic": "Identity / Duo (highest-attach)",
+      "content": "Duo standalone or attached. Lowest-friction Cisco Secure SKU. The cross-sell that compounds every other motion. Layers cleanly on a Microsoft estate without displacement. Discovery question: \"60% of breaches start with identity. What are you doing beyond MFA?\"",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "play",
+      "topic": "Secure Networking / firewall seeding (FY26 named)",
+      "content": "Cisco places a Secure Firewall at low or no upfront cost. Targeted Competitive Firewall up to 85% off displacement. Hardware margin on conversion, recurring on Security Cloud Control attach. No user-count gate — works at any size. Pull-through into Identity and Segmentation. Sequence: hardware install, then SCC attach, then Duo, then segmentation. Discovery question: \"How old is your firewall estate? When did you last do a rule hygiene review?\"",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "play",
+      "topic": "Segmentation (operational)",
+      "content": "Network segmentation extended into a security motion. The firewall becomes the policy enforcement point. Builds on existing ISE deployments. Discovery question: \"If an attacker got into your network today, how far could they move before you would see it?\"",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "path",
+      "topic": "Path A - Meraki-led",
+      "content": "Cloud-managed networking partner. Extend the install base into XDR (network-only customer becomes XDR-attached), Duo on the same user base, Umbrella-to-Secure-Access at 50 seats. Customer fit: multi-site retailer 30-200 locations, healthcare network, school district, property-management portfolio.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "path",
+      "topic": "Path B - Catalyst-led",
+      "content": "Enterprise networking partner with Catalyst, ISE, aging ASA. ASA-to-Secure-Firewall migration with TCF applied, segmentation on existing ISE, Cloud Protection Suite for off-prem workloads. Renewal motion, not displacement. Customer fit: regional credit union or insurer, provincial Crown corporation, manufacturer with multiple plants, higher-ed campus.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "path",
+      "topic": "Path C - Practice-build",
+      "content": "No significant Cisco Secure footprint yet. Lead with Risk Advisory, build the bench on those engagements, identify 2-3 firewall seeding candidates. Black Belt, FireJumper SE, Partner Journeys as the structured path. Arc: two funded engagements Q1, one displacement Q2, named Cisco Secure brand by Q4. Longest motion, compounds hardest.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "competitive",
+      "topic": "vs Fortinet",
+      "content": "The lock-in play. Cisco wins: Hybrid Mesh Firewall consolidates cloud, on-prem, and hybrid without the proprietary fabric tax. TCF at up to 85% off. Security Cloud Control as the unified management plane.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "competitive",
+      "topic": "vs Palo Alto",
+      "content": "Premium pricing, Canadian budget. Cisco lands where Palo prices out: equivalent capability (Secure Firewall + SCC + Duo + XDR) sized for the budget the customer actually has. The TCO conversation is decisive.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "competitive",
+      "topic": "vs Sophos / Checkpoint",
+      "content": "Cost-first and installed. Sophos: win when the customer outgrows the managed-service model. Checkpoint: win at the refresh cycle with TCF pricing. Integration story is the differentiator.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "competitive",
+      "topic": "vs M365-as-the-only-plane",
+      "content": "The non-vendor threat. Not a feature comparison — a risk-advisory conversation. Duo layers cleanly on the Microsoft estate without displacement. Gaps are exposed, not argued.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "market-force",
+      "topic": "Regulation is arriving",
+      "content": "Federal legislation moving through Parliament will require critical infrastructure operators to have documented security programmes. OSFI already mandates identity controls for federally regulated financial institutions. The expectation is spreading beyond finance. Compliance context for Canadian buyers: PHIPA, PIPEDA, OSFI, FINTRAC.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "market-force",
+      "topic": "Insurance renewal pressure",
+      "content": "At renewal — not at sale — carriers demand evidence of security controls. Most customers don't have the documentation. The partner who helps them get there owns the relationship for a long time.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "market-force",
+      "topic": "Market sorting",
+      "content": "The market is sorting partners into two groups: those who can lead a security conversation own the account; those who can't are quoting on price against partners with better buying power. The gap is widening and doesn't close on its own.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "incentive",
+      "topic": "Cisco Seller Rewards",
+      "content": "Points and cash deposited directly to the individual seller's wallet on eligible Cisco Secure deals. AMs and SEs qualify. Redeemable for gift cards, merchandise, experiences. The reward is the seller's, not the company's discretionary bonus. Enrol: cisco.com/go/sellerrewards.",
+      "audiences": [
+        "t1-sellers",
+        "tier2-partners"
+      ],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "incentive",
+      "topic": "PVI tiers",
+      "content": "PVI 1.0: deal-reg eligibility (Hunting and Teaming registrations; build one registered motion per quarter). PVI 5.0: rebate floor (build a Black Belt cohort per quarter). PVI 7.5+: Preferred Partner status, Topology Builder, dCloud eXpo, higher rebate tiers (hold quarterly business reviews with Cisco field). Capabilities is the fastest dimension to move on the scorecard.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "incentive",
+      "topic": "Black Belt capability stat",
+      "content": "Partners with 60%+ Black Belt certification post 10% higher security booking growth. Black Belt cohorts and FireJumper SE accreditation lift the bench; Topology Builder and dCloud eXpo give SEs production-grade demos without a lab build.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "objection",
+      "topic": "We already run quarterly assessments",
+      "content": "This is not a risk assessment — it is a network architecture readiness check. It asks a different set of questions about a different layer of the stack, and connects directly to an improvement path. Complementary, not competitive.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "objection",
+      "topic": "Is this just a Cisco pitch in disguise?",
+      "content": "The audit is vendor-agnostic — 10 questions about your posture, not about products. The scored output is yours to keep regardless of what happens next. If Cisco solutions are relevant, we will be transparent about that in the follow-on conversation.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "objection",
+      "topic": "Our current vendor already does this",
+      "content": "Did the output of that assessment produce a clear next step, and are you on track to act on it? Most of the time the answer is no. That is the gap this motion closes — from insight to implementation, not just insight.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "objection",
+      "topic": "We don't have budget right now",
+      "content": "The audit does not require budget. It is 30 minutes and produces a scored report you keep. It builds the business case for when budget does appear — and tells you which gap to address first.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "objection",
+      "topic": "We just renewed our security contracts",
+      "content": "Renewal is the best time — it gives you a baseline to measure against at the next cycle, and may surface areas your current vendor is not covering before the next renewal.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "proof-point",
+      "topic": "Atlantic credit union - TCO",
+      "content": "Three aging Fortinets at refresh. TCO analysis showed a 40% five-year saving with Secure Firewall.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "proof-point",
+      "topic": "School board - seed unit",
+      "content": "1100 series seeded at a school board's Internet edge. Thirty days of real traffic — at refresh, it stays.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "proof-point",
+      "topic": "Regional logistics - managed firewall",
+      "content": "Managed firewall service: monthly fee replaces the capital event. Five-year contract.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "proof-point",
+      "topic": "Manufacturer - Hybrid Mesh Firewall",
+      "content": "Network team sees cloud, on-prem, and OT in one console. The Fortinet conversation ends there.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "cadence",
+      "topic": "Weekly / Monthly / Quarterly operating rhythm",
+      "content": "WEEKLY (bench): pipeline scrub (3 deals minimum), deal-reg review before customer calls, Trial Console check with SE on at-risk trials by Friday. MONTHLY (practice): Black Belt completion review, PVI score read (PXP partner-side, DPV disti-side — same numbers both sides), 3-month pipeline coverage check. QUARTERLY (leadership): joint Cisco/disti/partner plan review, MDF alignment against named motions, Black Belt / FireJumper cohort planning.",
+      "audiences": [
+        "tier1-leadership",
+        "disti-teams"
+      ],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "cadence",
+      "topic": "Disti role split",
+      "content": "DISTI REP carries: promotion math (TCF, Ignite Hunting/Teaming/Plus, XDR Trial), PXP/DPV data views, Cisco partner-team intro when the deal is real. DISTI SE carries: pre-qualification (sizing, user counts, licensing — saves the partner from quoting wrong), trial/demo plumbing (Secure Trial Console, dCloud), post-seed deployment through conversion. The post-seed handoff is where deals close or stall.",
+      "audiences": [
+        "disti-teams",
+        "tier2-partners"
+      ],
+      "added_at": "2026-07-12T23:30:00"
+    },
+    {
+      "category": "play",
+      "topic": "Play structure - T1 vs T2",
+      "content": "Tier 1 runs EIGHT plays: Risk Advisory, Zero Trust Access, AI, Cloud, Identity, Secure Networking, Segmentation, SOC. Tier 2 runs SIX: the core five (Risk Advisory, Zero Trust Access, Identity, Secure Networking, Segmentation) plus Cloud. AI and SOC are Tier 1 plays.",
+      "audiences": [],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "play",
+      "topic": "Cloud (T1 + T2)",
+      "content": "Consistent security policy across AWS, Azure, and GCP. Cloud Protection Suite for workloads that have moved off-prem. Discovery question: \"How consistent is your security policy across AWS, Azure, and GCP today?\"",
+      "audiences": [],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "play",
+      "topic": "AI (T1)",
+      "content": "Lead with AI Defense for shadow AI visibility; expand into Hypershield + Secure Workload. Natural co-sell with DC / AI Pod teams. Discovery question: \"Which AI tools are your employees using that you do not have visibility into?\"",
+      "audiences": [
+        "tier1-leadership",
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "play",
+      "topic": "SOC (T1)",
+      "content": "SOC modernisation - replace or augment legacy SIEM with XDR + Splunk ES. Often rides on a Splunk renewal or cyber insurance cycle. Discovery question: \"What is your MTTD and MTTR today? How does it compare to where you want to be?\"",
+      "audiences": [
+        "tier1-leadership",
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "play",
+      "topic": "Named motion - Reignite Firewall",
+      "content": "Network & firewall refresh: modernise aging estates onto FTD 10.0 / Hybrid Mesh Firewall; often rides on Catalyst or Meraki refresh. Typical ACV $150K-$2M, 90-180 days. Assets: firewall rule hygiene, migration workshop, virtual-patching demo. The label matters - it tells the Cisco AM what support to line up.",
+      "audiences": [
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "play",
+      "topic": "Named motion - Project Meteor",
+      "content": "Cross-pillar ZTA + Segmentation: Zero Trust Access + Secure Networking + Segmentation combined (SSE + ISE + Firewall + Secure Workload). Typical ACV $500K-$5M, 180-270 days. Assets: Universal ZTA session, identity/network/workload threading, EA consolidation.",
+      "audiences": [
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "play",
+      "topic": "Named motion - Breach Protection by XDR",
+      "content": "SOC modernisation: replace or augment legacy SIEM with XDR + Splunk ES; rides on Splunk renewal or cyber insurance cycle. Typical ACV $200K-$3M, 90-150 days. Assets: SOC maturity assessment, Splunk data onboarding, XDR CTF hands-on.",
+      "audiences": [
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "play",
+      "topic": "Named motion - AI-Ready Security",
+      "content": "AI Defense + Hypershield + Secure AI Factory. Lead with AI Defense for shadow AI visibility, expand into Hypershield + Secure Workload; co-sell with DC / AI Pod teams. Typical ACV $300K-$5M, 120-240 days. Assets: shadow AI exposure assessment, AI risk posture workshop, Secure AI Factory review.",
+      "audiences": [
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "framework",
+      "topic": "Three questions in every deal",
+      "content": "1) What is the trigger? (breach/incident, insurance renewal, new CISO, regulatory change, EA renewal, cloud/AI rollout, firewall/EDR EOL - no compelling event, no urgency, deal stalls). 2) What is the outcome? (reduce MTTD/MTTR, pass audit, cut premium, consolidate tools, protect AI adoption, enable hybrid work, stop ransomware - lead with outcome, sell the suite, attach products). 3) Who decides and signs? (map the buying committee: champion, technical buyer, economic buyer, influencer, user, procurement - identify three minimum).",
+      "audiences": [
+        "t1-sellers",
+        "tier2-partners"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "framework",
+      "topic": "Deal stages - shared vocabulary",
+      "content": "10% EARLY: named sponsor, trigger identified, compelling event being validated. 25% QUALIFIED: discovery done, budget indicator, decision process mapped - pipeline-eligible. 50% EVALUATION: PoV/demo underway, economic buyer engaged - best-case territory. 75% NEGOTIATION: pricing agreed, paper in flight - commit when close date inside 30 days and blocker named. 90% CLOSE: signed SOW/PO - expansion and attach motion opens here.",
+      "audiences": [
+        "t1-sellers",
+        "disti-teams"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "objection",
+      "topic": "We are standardised on Palo/CrowdStrike/Microsoft",
+      "content": "They're defending a past purchase; they want proof migration or coexistence is worth it. Reframe: \"We do not have to rip anything out. We can coexist and prove value at the margins - cloud, AI, or identity - and let the numbers decide.\"",
+      "audiences": [
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "objection",
+      "topic": "Microsoft E5 already gives me identity and security",
+      "content": "Economic buyer optimising for bundling; security buyer often sceptical of E5 depth. Reframe: \"E5 is great at Microsoft-centric identity. 60% of breaches involve identity - attackers do not stop at Microsoft. Talos sees it all.\"",
+      "audiences": [
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "objection",
+      "topic": "No budget for a new security investment (enterprise)",
+      "content": "They have not tied the investment to a compelling event. Anchor to the trigger - breach, renewal, audit, insurance: \"What is the cost if X happens? Let us size the investment against that.\"",
+      "audiences": [
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "objection",
+      "topic": "We are consolidating vendors, not adding one",
+      "content": "Actually an OPPORTUNITY - Cisco replaces four to six point vendors. Reframe: \"We agree. Let us list your current vendors. I will show you which ones we replace and what it saves you.\"",
+      "audiences": [
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "objection",
+      "topic": "Your pricing is higher than competitor",
+      "content": "Early-cycle signal; they have not seen full TCO. Pivot to TCO + consolidation savings + rebates: \"Sticker price differs. Three-year TCO - let us do the math together.\"",
+      "audiences": [
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "objection",
+      "topic": "We tried Cisco years ago and it did not work out",
+      "content": "Legitimate legacy objection (old Umbrella, ISE 2.x, old Firepower). Reframe: \"Here is what is materially different: new architecture, new UX, new ecosystem. Let us do a 90-day pilot and you decide.\"",
+      "audiences": [
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "competitive",
+      "topic": "vs Palo Alto (enterprise angle)",
+      "content": "Strength: firewall share leader, strong SSE (Prisma Access), platform narrative. Weakness: expensive; Prisma Access vs Cloud vs SASE line confusion; weak in identity. Cisco angle: only vendor unifying network + security + identity + AI in ONE architecture - HMF + SSE + ISE + Splunk is a story Palo cannot match; TCO favours Cisco in multi-product deals.",
+      "audiences": [
+        "t1-sellers",
+        "tier1-leadership"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "competitive",
+      "topic": "vs CrowdStrike",
+      "content": "Strength: best-in-class EDR/XDR, strong brand, tight Falcon platform. Weakness: endpoint-first (network telemetry gap), nascent SIEM story, single-point-of-failure concern after 2024. Cisco angle: XDR + Splunk delivers SIEM depth with network + endpoint + email + identity breadth CrowdStrike cannot match. Do not fight on endpoint - fight on correlation depth.",
+      "audiences": [
+        "t1-sellers",
+        "tier1-leadership"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "competitive",
+      "topic": "vs Microsoft (coexistence)",
+      "content": "Strength: E5 bundling, Microsoft-graph integration, CFO economics. Weakness: Microsoft-centric coverage - non-M365 identity, non-Azure cloud, non-Windows endpoint are thin; vendor concentration risk. Cisco angle: \"Coexistence, not replacement.\" Cisco + Microsoft is the most common security architecture; Cisco brings Talos intel, multi-cloud coverage, network + identity depth.",
+      "audiences": [
+        "t1-sellers",
+        "tier1-leadership"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "resource",
+      "topic": "Demo & PoV shelf",
+      "content": "dCloud (self-service demo labs, dcloud.cisco.com - Secure Access, Duo, ISE, XDR, Firewall). Secure Trials Console (30-day trials via PAM). CPOC (hardware PoV on-prem 30-90 days via TSA, qualified customer + success criteria required). CXC executive briefing centres (Toronto, NYC, San Jose, RTP - book via PAM). Talos briefing (CISO-level door-opener, not a closer). XDR/Identity CTF (live attack simulations - best enablement tool available). Never promise what you cannot deliver.",
+      "audiences": [
+        "t1-sellers",
+        "tier2-partners"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "resource",
+      "topic": "When stuck - who to call",
+      "content": "Demo this week: dCloud, then Cisco SE (48h). Technical blocker: Security TSA via PAM (48h). Pricing/packaging: Security Sales Specialist via PAM (48h). Competitive escalation: Competitive Team via PAM (this week). Active incident: Talos IR urgent number from PAM (same day - stop all pipeline thinking). Specialisation blocker: PAM + Partner Development Manager (this week).",
+      "audiences": [
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "cadence",
+      "topic": "Productive week patterns (sellers)",
+      "content": "1) Five+ discovery calls with a security trigger question. 2) At least one deal moves a stage (30+ days stuck = quietly slipping). 3) Demo or TSA session booked for a Qualified+ deal (demos shorten cycles 30-50%). 4) New opportunity registered in Cisco Commerce Workplace at Qualified - not later. 5) Forecast reflects reality (no sandbagging, no over-calling). 6) PAM sync with top three deals named and specific asks. 7) Thirty minutes in Black Belt or Fire Jumper - the skill edge compounds.",
+      "audiences": [
+        "t1-sellers"
+      ],
+      "added_at": "2026-07-12T23:55:00"
+    }
+  ],
+  "prompts": {
+    "style-guide": {
+      "text": "Write in Brandon Randell's established voice (Partner Security Account Executive, Cisco Canada): Declarative, short sentences. Sentence-case headers that end with a period ('The motion is built when the cadence is built.'). Each section or slide closes with an em-dash kicker: 'THE RULE — ...', 'THE COMPOUND — ...'. Core vocabulary: motion, practice, play, bench, compound, seed, door-opener, pull-through. Canadian English (organisation, programme, centre), metric, CAD. Canadian examples: credit unions, school boards, Crown corporations, PHIPA/PIPEDA/OSFI/FINTRAC. Numbers written plainly ('up to 85 per cent off' in prose, '85%' in tables). Competitor names appear once, for orientation — 'what you displace matters less than what you put in its place.' Never oversell; the confidence is in the brevity. Footer pattern: 'Cisco Canada Partner Growth · FY26' + document series name.",
+      "notes": "Derived from FY26_Partner_Playbook_From_Quote_to_Practice and why-this-audit-objection-handler. The voice IS the brand — apply to every deliverable.",
+      "updated_at": "2026-07-12T23:30:00",
+      "version": 1
+    },
+    "deck-from-master": {
+      "text": "Adapt master content into a slide deck: One idea per slide. Slide header is a declarative sentence with a period. Body in 2-3 labelled columns (e.g. 'SELLING TODAY / EXTEND INTO / CUSTOMER FIT'), each column 2-4 short paragraphs max. Close each slide with an em-dash kicker line ('THE SEQUENCE — ...'). 8-14 slides total. Page footer with series name and page numbers. Cut anything the target audience wouldn't act on (see audience profile 'avoid' list). Leadership gets economics and cadence; sellers get talk tracks and incentives; tier 2 gets entry motions and disti support.",
+      "notes": "The core master-to-deck fan-out prompt.",
+      "updated_at": "2026-07-12T23:30:00",
+      "version": 1
+    },
+    "one-pager": {
+      "text": "Positioning-card format (like 'why-this-audit'): Title as three fragments ('WHY THIS AUDIT. WHY NOW. WHY US.'). Open with 'The one-sentence answer'. Then 'Three things that make this different' as a numbered table. Then objection/response table ('WHAT THEY SAY' / 'HOW TO RESPOND') — pull pairs from the messaging library, category=objection. Close with the plain-language investment case and a bulleted 'what you get' list. Footer: series name + confidentiality line.",
+      "notes": "For objection handlers, battlecards, leave-behinds.",
+      "updated_at": "2026-07-12T23:30:00",
+      "version": 1
+    },
+    "playbook": {
+      "text": "Playbook format (like 'From Quote to Practice'): open with who the partner is / who the customer is / why now (three market forces). Then the reward stack (seller / bench / practice). Then the plays (numbered, each with motion type label). Then paths (A/B/C) with SELLING TODAY / EXTEND INTO / CUSTOMER FIT structure. Competitive section: four threats, four answers, one 'THE RULE' kicker. Close with PVI progression, operating cadence, disti role split, and 'the motion exists' call to action. 12-16 pages.",
+      "notes": "The flagship long-form format.",
+      "updated_at": "2026-07-12T23:30:00",
+      "version": 1
+    },
+    "test-prompt": {
+      "text": "v1",
+      "notes": "",
+      "updated_at": "2026-07-12T23:03:22",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "title": "Operating_System_for_Partner_Growth_Master_Edition_FY26",
+      "type": "master-doc",
+      "audience": "",
+      "status": "final",
+      "location": "drive",
+      "link": "https://docs.google.com/document/d/1BQ5MFO6jjdH6PTafqoteVdes8h981oSAl2wDeV8naY0/edit",
+      "derived_from": "",
+      "campaign": "fy26-partner-growth",
+      "registered_at": "2026-07-12T23:30:00"
+    },
+    {
+      "title": "FY26_Partner_Playbook_From_Quote_to_Practice",
+      "type": "playbook",
+      "audience": "tier2-partners",
+      "status": "final",
+      "location": "drive",
+      "link": "https://docs.google.com/presentation/d/1J8zPedFwRNr2T10G3yoYBtNTwFSZG2xzEHmh30vw_Xs/edit",
+      "derived_from": "Operating_System_for_Partner_Growth_Master_Edition_FY26",
+      "campaign": "fy26-partner-growth",
+      "registered_at": "2026-07-12T23:30:00"
+    },
+    {
+      "title": "Tier 1 Partner Leadership",
+      "type": "deck",
+      "audience": "tier1-leadership",
+      "status": "final",
+      "location": "drive",
+      "link": "https://docs.google.com/presentation/d/1GdqEVNO0dT6-W22K6qP4zRQ3Wo4NGAgq4_7DAt7o5uM/edit",
+      "derived_from": "Operating_System_for_Partner_Growth_Master_Edition_FY26",
+      "campaign": "fy26-partner-growth",
+      "registered_at": "2026-07-12T23:30:00"
+    },
+    {
+      "title": "T1 Partner Sellers",
+      "type": "deck",
+      "audience": "t1-sellers",
+      "status": "final",
+      "location": "drive",
+      "link": "https://docs.google.com/presentation/d/1EemyjtTN5rqGpK_1quGvzmP3hxSEEWKzOaL1IUONXzY/edit",
+      "derived_from": "Operating_System_for_Partner_Growth_Master_Edition_FY26",
+      "campaign": "fy26-partner-growth",
+      "registered_at": "2026-07-12T23:30:00"
+    },
+    {
+      "title": "architecture-audit-challenge-deck",
+      "type": "deck",
+      "audience": "tier2-partners",
+      "status": "final",
+      "location": "drive",
+      "link": "https://docs.google.com/presentation/d/14wm15pE8_QjARcufCKtKMPTaCbpzm3zxRP38cd0ZYc0/edit",
+      "derived_from": "",
+      "campaign": "secure-networking-index-audit",
+      "registered_at": "2026-07-12T23:30:00"
+    },
+    {
+      "title": "why-this-audit-objection-handler",
+      "type": "objection-handler",
+      "audience": "t1-sellers",
+      "status": "final",
+      "location": "drive",
+      "link": "https://docs.google.com/document/d/1tzK-hPLlpaQp22dLYlF4zKk8IhaEKlrEd3DvFrEESQU/edit",
+      "derived_from": "architecture-audit-challenge-deck",
+      "campaign": "secure-networking-index-audit",
+      "registered_at": "2026-07-12T23:30:00"
+    },
+    {
+      "title": "FY26/27 Distribution Led GTM",
+      "type": "pdf",
+      "audience": "disti-teams",
+      "status": "final",
+      "location": "drive",
+      "link": "",
+      "derived_from": "",
+      "campaign": "fy26-partner-growth",
+      "registered_at": "2026-07-12T23:30:00"
+    },
+    {
+      "title": "ISE_Business_Value_Proposal",
+      "type": "proposal",
+      "audience": "customer-facing",
+      "status": "final",
+      "location": "drive",
+      "link": "",
+      "derived_from": "",
+      "campaign": "",
+      "registered_at": "2026-07-12T23:30:00"
+    },
+    {
+      "title": "T1 Sellers companion artefacts (referenced, not yet registered)",
+      "type": "note",
+      "audience": "t1-sellers",
+      "status": "reference",
+      "location": "cisco",
+      "link": "",
+      "derived_from": "T1 Partner Sellers",
+      "campaign": "fy26-partner-growth",
+      "registered_at": "2026-07-12T23:55:00",
+      "notes": "Securing What Matters Most (customer narrative); Becoming the Cisco Security Practice (practice-lead business case); Security 101 for Generalists; Practice Discovery Engine (90-min working session tool); Fire Jumper bootcamp; Partner Motion Operating Model"
+    }
+  ]
+}
