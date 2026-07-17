@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from lib.gtm_tools import competitive_for_competitors
+from story_library.canada_context import prepend_market_sections
 from story_library.exporters import export_docx
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -56,4 +57,5 @@ def generate_competitive_brief(
         ("Competitors", _format_list(competitors)),
     ]
     sections.extend(_competitive_sections(competitors))
+    sections = prepend_market_sections(sections)
     return export_docx(account, sections, path, "Competitive Brief")

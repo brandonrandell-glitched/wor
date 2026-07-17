@@ -18,14 +18,22 @@ class CompetitiveAssistant:
     collected: dict[str, Any] = field(default_factory=dict)
     available_competitors: list[str] = field(default_factory=list)
     _final_json: dict[str, Any] | None = field(default=None, repr=False)
+    _handoff_sources: list[str] = field(default_factory=list, repr=False)
 
-    def start(self, customer_account: str) -> AssistantResponse:
+    def start(
+        self,
+        customer_account: str,
+        handoff: dict[str, Any] | None = None,
+    ) -> AssistantResponse:
         self.customer_account = customer_account
         self.collected = {"customer_account_name": customer_account}
         self.available_competitors = list_competitors()
         ctx = get_customer_context(customer_account)
         if ctx and ctx.get("cisco_technologies_proposed"):
             self.collected["cisco_technologies"] = list(ctx["cisco_technologies_proposed"])
+        if handoff:
+            self._apply_handoff(handoff)
+            return self._resume_from_handoff()
         self.phase = "technologies"
         if self.collected.get("cisco_technologies"):
             techs = ", ".join(self.collected["cisco_technologies"])
@@ -40,6 +48,30 @@ class CompetitiveAssistant:
         return AssistantResponse(
             message="Which Cisco technologies are in scope? (comma-separated)",
             phase="technologies",
+            workflow="competitive",
+        )
+
+    def _apply_handoff(self, handoff: dict[str, Any]) -> None:
+        self._handoff_sources = list(handoff.get("_handoff_sources", []))
+        techs = handoff.get("cisco_technologies")
+        if techs:
+            self.collected["cisco_technologies"] = list(techs)
+
+    def _resume_from_handoff(self) -> AssistantResponse:
+        techs = self.collected.get("cisco_technologies", [])
+        tech_list = ", ".join(techs) if techs else "none specified"
+        sources = ", ".join(self._handoff_sources) or "prior workflow"
+        self.phase = "competitors"
+        options = "\n".join(f"  • {c}" for c in self.available_competitors)
+        return AssistantResponse(
+            message=(
+                f"Continuing competitive brief for {self.customer_account} "
+                f"(technologies from {sources}): {tech_list}\n\n"
+                "Which competitors should we position against?\n"
+                f"{options}\n\n"
+                "List competitor names (comma-separated), or type 'all'."
+            ),
+            phase="competitors",
             workflow="competitive",
         )
 

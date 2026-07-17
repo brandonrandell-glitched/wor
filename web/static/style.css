@@ -262,6 +262,36 @@ button:disabled {
   text-decoration: underline;
 }
 
+.continue-panel {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.continue-panel h3 {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+#continue-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#continue-buttons button {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent-hover);
+}
+
+#continue-buttons button:hover {
+  background: var(--surface-2);
+}
+
 .input-row {
   margin-top: 4px;
 }

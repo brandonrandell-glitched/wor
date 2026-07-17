@@ -28,7 +28,7 @@ class DiscoveryAssistant:
 
     INTAKE = ["industry", "organization_size", "current_infrastructure"]
 
-    def start(self, customer_account: str) -> AssistantResponse:
+    def start(self, customer_account: str, handoff: dict | None = None) -> AssistantResponse:
         self.customer_account = customer_account
         self.collected = {"customer_account_name": customer_account}
         ctx = get_customer_context(customer_account)

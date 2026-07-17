@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from story_library.canada_context import prepend_market_sections
 from story_library.exporters import export_docx
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -59,4 +60,5 @@ def generate_discovery_brief(
         sections.append(("MEDDPICC Qualification", format_meddpicc_section(meddpicc)))
     if data.get("CX Lifecycle Stage"):
         sections.insert(1, ("CX Lifecycle Stage", data.get("CX Lifecycle Stage", "")))
+    sections = prepend_market_sections(sections, data.get("Industry", ""))
     return export_docx(account, sections, path, "Discovery Prep Brief")

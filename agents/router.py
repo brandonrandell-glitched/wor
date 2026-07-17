@@ -8,6 +8,7 @@ from agents.base import AssistantResponse, Workflow
 from agents.competitive_assistant import CompetitiveAssistant
 from agents.discovery_assistant import DiscoveryAssistant
 from agents.proposal_assistant import ProposalAssistant
+from lib.handoff import continue_options, merge_handoff_for
 
 
 class GTMRouter:
@@ -38,13 +39,25 @@ class GTMRouter:
             for key, val in self.WORKFLOWS.items()
         ]
 
-    def start(self, workflow: str, customer_account: str, session_id: str) -> AssistantResponse:
+    def start(
+        self,
+        workflow: str,
+        customer_account: str,
+        session_id: str,
+        handoff: dict[str, Any] | None = None,
+        prior_outputs: list[dict[str, Any]] | None = None,
+    ) -> AssistantResponse:
         spec = self.WORKFLOWS.get(workflow)
         if not spec:
             raise ValueError(f"Unknown workflow: {workflow}")
         assistant = spec["class"]()
-        resp = assistant.start(customer_account)
-        self._sessions[session_id] = {"workflow": workflow, "assistant": assistant}
+        resp = assistant.start(customer_account, handoff=handoff)
+        self._sessions[session_id] = {
+            "workflow": workflow,
+            "assistant": assistant,
+            "customer_account": customer_account,
+            "prior_outputs": list(prior_outputs or []),
+        }
         return self._wrap(resp, workflow)
 
     def process(self, session_id: str, message: str) -> AssistantResponse:
@@ -61,6 +74,47 @@ class GTMRouter:
     def get_workflow(self, session_id: str) -> str | None:
         entry = self._sessions.get(session_id)
         return entry["workflow"] if entry else None
+
+    def get_customer(self, session_id: str) -> str | None:
+        entry = self._sessions.get(session_id)
+        return entry["customer_account"] if entry else None
+
+    def get_continue_options(self, session_id: str) -> list[dict[str, str]]:
+        entry = self._sessions.get(session_id)
+        if not entry:
+            raise KeyError("Session not found")
+        assistant = entry["assistant"]
+        if not getattr(assistant, "_final_json", None):
+            return []
+        return continue_options(entry["workflow"])
+
+    def continue_workflow(
+        self,
+        session_id: str,
+        target_workflow: str,
+        new_session_id: str,
+    ) -> AssistantResponse:
+        entry = self._sessions.get(session_id)
+        if not entry:
+            raise KeyError("Session not found")
+        assistant = entry["assistant"]
+        if not getattr(assistant, "_final_json", None):
+            raise ValueError("Complete and confirm the current workflow before continuing.")
+
+        allowed = {opt["id"] for opt in continue_options(entry["workflow"])}
+        if target_workflow not in allowed:
+            raise ValueError(f"Cannot continue from {entry['workflow']} to {target_workflow}.")
+
+        prior = list(entry.get("prior_outputs", []))
+        prior.append({"workflow": entry["workflow"], "json": assistant._final_json})
+        handoff = merge_handoff_for(target_workflow, prior)
+        return self.start(
+            target_workflow,
+            entry["customer_account"],
+            new_session_id,
+            handoff=handoff,
+            prior_outputs=prior,
+        )
 
     @staticmethod
     def _wrap(resp: Any, workflow: str) -> AssistantResponse:

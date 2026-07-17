@@ -52,6 +52,11 @@ def _response_payload(session_id: str, resp) -> dict:
         payload["tool_call"] = resp.tool_call
     if resp.workflow:
         payload["generate_label"] = GENERATE_LABELS.get(resp.workflow, "Generate Document")
+    if resp.done and resp.json_output and resp.workflow:
+        try:
+            payload["continue_options"] = router.get_continue_options(session_id)
+        except KeyError:
+            payload["continue_options"] = []
     return payload
 
 
@@ -93,6 +98,32 @@ def send_message(session_id: str):
     except KeyError:
         return jsonify({"error": "Session not found. Start a new session."}), 404
     return jsonify(_response_payload(session_id, resp))
+
+
+@app.post("/api/session/<session_id>/continue")
+def continue_session(session_id: str):
+    data = request.get_json(silent=True) or {}
+    target = (data.get("workflow") or "").strip()
+    if not target:
+        return jsonify({"error": "workflow is required"}), 400
+
+    new_session_id = str(uuid.uuid4())
+    try:
+        resp = router.continue_workflow(session_id, target, new_session_id)
+    except KeyError:
+        return jsonify({"error": "Session not found. Start a new session."}), 404
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 400
+    return jsonify(_response_payload(new_session_id, resp))
+
+
+@app.get("/api/session/<session_id>/continue-options")
+def list_continue_options(session_id: str):
+    try:
+        options = router.get_continue_options(session_id)
+    except KeyError:
+        return jsonify({"error": "Session not found."}), 404
+    return jsonify({"continue_options": options})
 
 
 @app.post("/api/session/<session_id>/generate")

@@ -116,6 +116,22 @@ CX spine: **ANALYZE → PLACE → LAND → ADOPT → EXPAND → RENEW** (with AN
 
 Discovery and proposal workflows capture optional **MEDDPICC** before confirm.
 
+## Workflow handoffs
+
+Confirmed JSON carries forward between workflows (web UI **Continue pipeline** buttons or programmatic merge via `lib/handoff.py`):
+
+| From | To | Carried fields |
+|------|-----|----------------|
+| Discovery | Competitive | Cisco technologies (full recommended list) |
+| Discovery | Proposal | Industry, infrastructure, pain points, technologies, MEDDPICC, lifecycle |
+| Competitive | Proposal | Technologies, competitors |
+
+**Acme demo pipeline:**
+
+```bash
+python scripts/run_acme_pipeline.py --generate
+```
+
 ## Tests
 
 ```bash

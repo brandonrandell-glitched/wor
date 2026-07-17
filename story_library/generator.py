@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from story_library.canada_context import prepend_market_sections
 from story_library.exporters import export_docx, export_pptx
 from story_library.i18n import labels_for
 
@@ -77,6 +78,20 @@ def _build_sections(data: dict[str, Any]) -> list[tuple[str, str]]:
         (labels["recommended_next_steps"], _format_value(next_steps, labels["not_provided"])),
         (labels["deal_reference"], _format_value(deal_id, labels["not_provided"])),
     ])
+
+    meddpicc = data.get("MEDDPICC")
+    if isinstance(meddpicc, dict) and meddpicc:
+        from lib.meddpicc import format_meddpicc_section
+        sections.append(("MEDDPICC Qualification", format_meddpicc_section(meddpicc)))
+    gaps = data.get("MEDDPICC Gaps")
+    if gaps:
+        sections.append((
+            "MEDDPICC Gaps",
+            "\n".join(f"- {g}" for g in gaps) if isinstance(gaps, list) else str(gaps),
+        ))
+    if data.get("CX Lifecycle Stage"):
+        sections.append(("CX Lifecycle Stage", str(data["CX Lifecycle Stage"])))
+
     return sections
 
 
@@ -208,7 +223,7 @@ def generate_proposal(
     labels = labels_for(language)
     slug = _slugify(account)
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d")
-    sections = _build_sections(data)
+    sections = prepend_market_sections(_build_sections(data), data.get("Industry", ""))
 
     if fmt == "ppt":
         filename = f"{slug}-{timestamp}.pptx"

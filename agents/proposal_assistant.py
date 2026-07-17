@@ -120,12 +120,20 @@ class ProposalAssistant:
     deal_options: list[dict[str, Any]] = field(default_factory=list)
     _initial_data: dict[str, Any] = field(default_factory=dict, repr=False)
     _final_json: dict[str, Any] | None = field(default=None, repr=False)
+    _handoff_sources: list[str] = field(default_factory=list, repr=False)
 
-    def start(self, customer_account: str) -> AssistantResponse:
+    def start(
+        self,
+        customer_account: str,
+        handoff: dict[str, Any] | None = None,
+    ) -> AssistantResponse:
         self.customer_account = customer_account
         self.collected["customer_account_name"] = customer_account
         self._load_initial_data(customer_account)
         self._prefill_from_data()
+        if handoff:
+            self._apply_handoff(handoff)
+            return self._resume_from_handoff(greeting=True)
         self.phase = Phase.INTAKE
         self.intake_index = 0
         return self._advance_intake(greeting=True)
@@ -190,6 +198,74 @@ class ProposalAssistant:
             val = prev.get(key)
             if val:
                 self.collected[key] = val
+
+    def _apply_handoff(self, handoff: dict[str, Any]) -> None:
+        self._handoff_sources = list(handoff.get("_handoff_sources", []))
+        mapping = {
+            "industry": "industry",
+            "organization_size": "organization_size",
+            "current_infrastructure": "current_infrastructure",
+            "customer_pain_points": "customer_pain_points",
+            "cisco_technologies": "cisco_technologies",
+            "competitors": "competitors",
+            "meddpicc": "meddpicc",
+            "cx_lifecycle_stage": "cx_lifecycle_stage",
+        }
+        for src, dest in mapping.items():
+            val = handoff.get(src)
+            if val is None or val == "" or val == []:
+                continue
+            if dest == "customer_pain_points" and isinstance(val, str):
+                val = parse_list_input(val)
+            self.collected[dest] = val
+
+    def _handoff_greeting(self) -> str:
+        if not self._handoff_sources:
+            return ""
+        labels = ", ".join(s.replace("_", " ").title() for s in self._handoff_sources)
+        return f"Continuing from prior workflow(s): {labels}. Confirmed fields were carried forward."
+
+    def _resume_from_handoff(self, greeting: bool = False) -> AssistantResponse:
+        prefix: list[str] = []
+        if greeting:
+            prefix.append(f"Welcome! I'll help you build a proposal for {self.customer_account}.")
+            note = self._handoff_greeting()
+            if note:
+                prefix.append(note)
+            available = self._format_available_data()
+            if available:
+                prefix.append(f"Here's what I already have:\n{available}")
+
+        self.intake_index = len(INTAKE_ORDER)
+        pains = self.collected.get("customer_pain_points")
+        techs = self.collected.get("cisco_technologies")
+
+        if pains and techs:
+            self.post_infra_index = 0
+            self.phase = Phase.GREETING
+            resp = self._advance_post_infra()
+            if prefix:
+                resp.message = "\n\n".join(prefix + [resp.message])
+            return resp
+
+        if pains:
+            self.extracted_pain_points = list(pains)
+            self.phase = Phase.PAIN_POINTS_CONFIRM
+            listed = "\n".join(f"  • {p}" for p in self.extracted_pain_points)
+            msg = (
+                "Pain points carried forward from discovery prep:\n"
+                f"{listed}\n\n"
+                "Reply 'use' to keep them, or 'replace' with new pain points."
+            )
+            if prefix:
+                msg = "\n\n".join(prefix + [msg])
+            return AssistantResponse(message=msg, phase=Phase.PAIN_POINTS_CONFIRM)
+
+        self.phase = Phase.PAIN_POINTS_EXTRACT
+        resp = self._run_pain_points_extraction()
+        if prefix:
+            resp.message = "\n\n".join(prefix + [resp.message])
+        return resp
 
     def _advance_intake(self, greeting: bool = False) -> AssistantResponse:
         greeting_parts: list[str] = []
@@ -446,6 +522,10 @@ class ProposalAssistant:
                 continue
 
             return self._ask_post_infra_field(field_name)
+
+        if self.collected.get("meddpicc"):
+            self.phase = Phase.REVIEW
+            return self._build_review()
 
         self.phase = Phase.MEDDPICC
         return AssistantResponse(
@@ -760,7 +840,11 @@ class ProposalAssistant:
             gaps = recommend_meddpicc_gaps(meddpicc, "land", pain_points)
             if gaps.get("gaps"):
                 result["MEDDPICC Gaps"] = [g["label"] for g in gaps["gaps"]]
-        result["CX Lifecycle Stage"] = "land"
+        competitors = self.collected.get("competitors")
+        if competitors:
+            result["Competitors"] = list(competitors)
+        stage = self.collected.get("cx_lifecycle_stage") or "land"
+        result["CX Lifecycle Stage"] = stage
         return result
 
     def _value_or_skipped(self, key: str) -> str:

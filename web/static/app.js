@@ -1,5 +1,6 @@
 let sessionId = null;
 let currentWorkflow = "proposal";
+let customerAccount = "";
 
 const startPanel = document.getElementById("start-panel");
 const chat = document.getElementById("chat");
@@ -16,6 +17,8 @@ const jsonPanel = document.getElementById("json-panel");
 const jsonOutput = document.getElementById("json-output");
 const generateBtn = document.getElementById("generate-btn");
 const downloadLink = document.getElementById("download-link");
+const continuePanel = document.getElementById("continue-panel");
+const continueButtons = document.getElementById("continue-buttons");
 
 function updateWorkflowDesc() {
   const wf = (window.WORKFLOWS || []).find((w) => w.id === workflowSelect.value);
@@ -43,15 +46,41 @@ function showSummary(summary) {
   summaryPanel.hidden = false;
 }
 
+function showContinueOptions(options) {
+  continueButtons.innerHTML = "";
+  if (!options || !options.length) {
+    continuePanel.hidden = true;
+    return;
+  }
+  for (const opt of options) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = opt.label;
+    btn.addEventListener("click", () => continueWorkflow(opt.id, opt.label));
+    continueButtons.appendChild(btn);
+  }
+  continuePanel.hidden = false;
+}
+
+function resetChatInput(enabled) {
+  messageInput.disabled = !enabled;
+  chatForm.querySelector("button").disabled = !enabled;
+  if (enabled) messageInput.focus();
+}
+
 function handleResponse(data) {
+  sessionId = data.session_id || sessionId;
+  if (data.workflow) currentWorkflow = data.workflow;
   addMessage(data.message, "assistant");
   if (data.summary) showSummary(data.summary);
   if (data.generate_label) generateBtn.textContent = data.generate_label;
   if (data.json_output) {
     jsonOutput.textContent = JSON.stringify(data.json_output, null, 2);
     jsonPanel.hidden = false;
-    messageInput.disabled = true;
-    chatForm.querySelector("button").disabled = true;
+    resetChatInput(false);
+    showContinueOptions(data.continue_options || []);
+  } else {
+    resetChatInput(true);
   }
 }
 
@@ -66,6 +95,23 @@ async function api(path, body) {
   return data;
 }
 
+async function continueWorkflow(targetWorkflow, label) {
+  if (!sessionId) return;
+  addMessage(`Continue: ${label}`, "user");
+  continuePanel.hidden = true;
+  downloadLink.hidden = true;
+  generateBtn.disabled = false;
+  try {
+    const data = await api(`/api/session/${sessionId}/continue`, {
+      workflow: targetWorkflow,
+    });
+    handleResponse(data);
+  } catch (err) {
+    addMessage(`Error: ${err.message}`, "assistant");
+    continuePanel.hidden = false;
+  }
+}
+
 workflowSelect.addEventListener("change", updateWorkflowDesc);
 updateWorkflowDesc();
 
@@ -73,8 +119,16 @@ startBtn.addEventListener("click", async () => {
   const customer = customerInput.value.trim();
   if (!customer) return;
 
+  customerAccount = customer;
   currentWorkflow = workflowSelect.value;
   startBtn.disabled = true;
+  messages.innerHTML = "";
+  summaryPanel.hidden = true;
+  jsonPanel.hidden = true;
+  continuePanel.hidden = true;
+  downloadLink.hidden = true;
+  generateBtn.disabled = false;
+
   try {
     const data = await api("/api/session/start", {
       customer_account: customer,
@@ -85,7 +139,6 @@ startBtn.addEventListener("click", async () => {
     chat.hidden = false;
     addMessage(customer, "user");
     handleResponse(data);
-    messageInput.focus();
   } catch (err) {
     alert(err.message);
     startBtn.disabled = false;
@@ -99,20 +152,14 @@ chatForm.addEventListener("submit", async (e) => {
 
   addMessage(message, "user");
   messageInput.value = "";
-  messageInput.disabled = true;
-  chatForm.querySelector("button").disabled = true;
+  resetChatInput(false);
 
   try {
     const data = await api(`/api/session/${sessionId}/message`, { message });
     handleResponse(data);
   } catch (err) {
     addMessage(`Error: ${err.message}`, "assistant");
-  } finally {
-    if (!messageInput.disabled) {
-      messageInput.disabled = false;
-      chatForm.querySelector("button").disabled = false;
-      messageInput.focus();
-    }
+    resetChatInput(true);
   }
 });
 
