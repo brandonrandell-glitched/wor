@@ -7,7 +7,7 @@ sys.path.insert(0, str(ROOT / "mcp_servers"))
 
 from _mcp_base import run_server
 
-from lib.gtm_tools import extract_pain_points, recommend_products
+from lib.gtm_tools import extract_pain_points, recommend_platform_story, recommend_products
 
 TOOLS = [
     {
@@ -41,6 +41,33 @@ TOOLS = [
             "required": ["pain_points"],
         },
     },
+    {
+        "name": "recommend_platform_story",
+        "description": (
+            "Recommendations mapped by pillar with story_mode routing: security-only, "
+            "security-led, or pillar-first. Pass entry_pillar when inbound is networking, "
+            "data-center, or collaboration — not security."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "pain_points": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+                "existing_technologies": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+                "entry_pillar": {
+                    "type": "string",
+                    "description": "How the deal entered: security (default), networking, data-center, collaboration.",
+                    "default": "security",
+                },
+            },
+            "required": ["pain_points"],
+        },
+    },
 ]
 
 USE_LIVE = False
@@ -59,6 +86,12 @@ def handler(name, args):
         return recommend_products(
             args["pain_points"],
             args.get("existing_technologies"),
+        )
+    if name == "recommend_platform_story":
+        return recommend_platform_story(
+            args["pain_points"],
+            args.get("existing_technologies"),
+            args.get("entry_pillar", "security"),
         )
     return {"error": f"Unknown tool: {name}"}
 

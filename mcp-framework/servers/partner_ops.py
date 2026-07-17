@@ -22,6 +22,26 @@ STAGES = {10: "Early", 25: "Qualified", 50: "Evaluation",
 STUCK_DAYS = 30
 TOUCH_OVERDUE_DAYS = 14
 
+MOTION_PILLARS = {
+    "security": [
+        "xdr", "firewall", "risk advisory", "identity", "zero trust", "breach",
+        "duo", "soc", "audit", "ai-ready security", "meteor", "segmentation",
+    ],
+    "networking": [
+        "reignite", "meraki", "catalyst", "refresh", "networking", "campus", "branch",
+    ],
+    "data_center": ["nexus", "ucs", "intersight", "dc", "ai pod", "hypershield", "workload"],
+    "collaboration": ["webex", "collab", "calling", "contact centre", "contact center"],
+}
+
+
+def _motion_pillar(motion: str) -> str:
+    m = (motion or "").lower()
+    for pillar, keywords in MOTION_PILLARS.items():
+        if any(k in m for k in keywords):
+            return pillar
+    return "security"
+
 def _load() -> dict:
     if DATA_PATH.exists():
         with open(DATA_PATH, "r", encoding="utf-8") as f:
@@ -179,6 +199,41 @@ def pipeline_view(partner: str = "") -> str:
         "deals": deals,
     }, ensure_ascii=False)
 
+
+def platform_view(partner: str = "") -> str:
+    """Open pipeline grouped by pillar — security entry vs platform pull-through."""
+    data = _load()
+    pkey = _find_partner(data, partner) if partner else None
+    by_pillar: dict = {p: [] for p in MOTION_PILLARS}
+    for d in data["deals"]:
+        if pkey and d["partner"] != pkey:
+            continue
+        if d["stage"] >= 90:
+            continue
+        pillar = _motion_pillar(d.get("motion", ""))
+        pname = data["partners"].get(d["partner"], {}).get("name", d["partner"])
+        by_pillar[pillar].append({
+            "deal": d["name"], "partner": pname, "motion": d.get("motion", ""),
+            "acv": d.get("acv", 0),
+            "stage": "{} ({}%)".format(STAGES[d["stage"]], d["stage"]),
+        })
+    entry = by_pillar.get("security", [])
+    pull = []
+    for p in ("networking", "data_center", "collaboration"):
+        pull.extend(by_pillar.get(p, []))
+    return json.dumps({
+        "headline": "Security opens the door; platform pull-through compounds.",
+        "entry_pillar_deals": len(entry),
+        "pull_through_deals": len(pull),
+        "by_pillar": {k: v for k, v in by_pillar.items() if v},
+        "guidance": (
+            "Lead partner conversations with security motions. "
+            "Flag pull-through deals where disti can thread network, DC, or collab "
+            "on the same customer."
+        ),
+    }, ensure_ascii=False)
+
+
 # ---------------------------------------------------------------- cadence
 
 def whats_due(cadence: str = "weekly") -> str:
@@ -237,9 +292,9 @@ def qbr_package(partner: str) -> str:
                             "acv": d.get("acv", 0)} for d in open_deals],
             "recent_touches": p.get("touches", [])[-5:],
         },
-        "next_step": ("Call cisco-content build_brief(audience='tier1-leadership', "
-                      "deliverable='deck', topic='QBR') and draft the QBR deck "
-                      "from this snapshot in Brandon's voice."),
+        "next_step": ("Call cisco-content build_platform_brief(audience='tier1-leadership', "
+                      "deliverable='deck', topic='QBR', story_mode='security-led') and draft "
+                      "the QBR deck from this snapshot in Brandon's voice."),
     }, ensure_ascii=False)
 
 # ---------------------------------------------------------------- MCP exports
@@ -309,6 +364,18 @@ TOOLS = [
         },
     },
     {
+        "name": "platform_view",
+        "description": (
+            "Open pipeline grouped by pillar (security entry vs networking / data centre / "
+            "collaboration pull-through). Use to see where the one-Cisco platform story is "
+            "compounding across a partner book."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {"partner": {"type": "string", "description": "Optional partner filter."}},
+        },
+    },
+    {
         "name": "whats_due",
         "description": "The operating cadence checklist (weekly pipeline scrub / monthly PVI read / quarterly joint plan) plus live attention flags: overdue partner touches and stuck deals. Use for 'what's on my plate' and morning briefings.",
         "inputSchema": {
@@ -336,6 +403,7 @@ TOOL_HANDLERS = {
         a["partner"], a["deal"], a["stage"], a.get("motion", ""),
         a.get("acv", 0), a.get("close_date", ""), a.get("notes", "")),
     "pipeline_view": lambda a: pipeline_view(a.get("partner", "")),
+    "platform_view": lambda a: platform_view(a.get("partner", "")),
     "whats_due": lambda a: whats_due(a.get("cadence", "weekly")),
     "qbr_package": lambda a: qbr_package(a["partner"]),
 }

@@ -37,11 +37,12 @@
     },
     "tier2-partners": {
       "label": "Tier 2 / Distribution-Led Partners",
-      "who": "Canadian resellers and MSPs, multi-vendor bench, smaller or no Cisco Secure book",
-      "tone": "Respectful of their existing motion — 'not rebuilding, adding a layer'. Low-friction entry points.",
-      "lead_with": "Risk Advisory as the funded door-opener, firewall seeding (no user-count gate), the disti rep/SE as their first call, practice-build arc (Q1 funded engagements to Q4 named brand)",
+      "who": "Canadian resellers and MSPs, multi-vendor bench — often network-led, building or expanding a security practice through disti",
+      "tone": "Respectful of their existing motion — 'not rebuilding, adding a layer'. Security is the door; one Cisco platform is the expansion.",
+      "lead_with": "Security door-openers first (audit, Risk Advisory, firewall seeding, identity attach) — then natural pull-through to networking refresh, data centre, and collaboration when the customer thread opens. Disti rep/SE as first call.",
       "priorities": [
-        "Low/no-cost entry motions",
+        "Low/no-cost security entry motions",
+        "Platform thread: security trigger → network → identity → collab/DC when earned",
         "Disti-carried support (promotion math, pre-qual, trials)",
         "Path A/B/C fit (Meraki-led, Catalyst-led, Practice-build)",
         "PVI 1.0 deal-reg habit up to 5.0 rebate floor"
@@ -87,6 +88,174 @@
       ],
       "format_preferences": "Positioning cards, scored reports, 30-minute conversation formats"
     }
+  },
+  "platform": {
+    "headline": "Security opens the door. One Cisco platform is the room.",
+    "entry_pillar": "security",
+    "story_principle": "Default inbound is security — lead there when the trigger is audit, breach, insurance, or identity. Stay security-only when the sponsor and budget are security-only. Expand across pillars when the customer names refresh, sprawl, hybrid pain, or AI plans. When the first conversation is networking, data centre, or collaboration — answer as SME on that pillar alone; pivot into the wider platform (including security) only when the thread opens.",
+    "routing": {
+      "security_only": [
+        "Sponsor is CISO or security lead only",
+        "Budget is a security line-item",
+        "Deal is Qualified on a named security motion",
+        "Partner bench is security-only for this engagement"
+      ],
+      "expand_from_security": [
+        "Customer names network or campus refresh",
+        "Platform sprawl (SaaS, collab, or cloud)",
+        "Hybrid workforce or access pain",
+        "AI or GPU plans surfacing"
+      ],
+      "pillar_first_standalone": [
+        "Inbound is networking, DC, or collab RFP or renewal",
+        "Sponsor is network, infrastructure, apps, or collaboration lead",
+        "Deal registered on a non-security motion first"
+      ],
+      "pillar_first_pivot_when": [
+        "Segmentation, identity, or policy raised in a network call",
+        "Compliance, fraud, or data handling raised in collab",
+        "Workload isolation or shadow AI raised in DC",
+        "Refresh conversation touches firewall or zero trust"
+      ]
+    },
+    "pillars": {
+      "security": {
+        "label": "Security",
+        "role": "entry",
+        "door_openers": [
+          "Secure Networking Index audit",
+          "Risk Advisory funded engagement",
+          "Firewall seeding / edge refresh",
+          "Identity and Duo attach",
+          "XDR / SOC modernisation"
+        ],
+        "sme_depth": "Zero trust access, XDR, segmentation, cloud posture, identity enforcement",
+        "pivot_to_platform": [
+          "Segmentation is a network architecture decision — thread to campus and DC when they name refresh",
+          "Identity spans collab and apps — thread when hybrid user pain surfaces"
+        ]
+      },
+      "networking": {
+        "label": "Networking",
+        "role": "entry-or-pull-through",
+        "door_openers": [
+          "Campus and branch refresh",
+          "Meraki or Catalyst renewal",
+          "Wi‑Fi and hybrid workplace upgrade",
+          "SD-WAN or site connectivity",
+          "Network observability and ThousandEyes"
+        ],
+        "attach_from_security": [
+          "SNI branch or segmentation gaps → campus/branch refresh",
+          "Firewall as policy enforcement point → Catalyst/Meraki renewal",
+          "East-west visibility gaps → observability and ISE",
+          "Hybrid access pain → Secure Access on the same user base"
+        ],
+        "pivot_to_platform": [
+          "Refresh is the policy enforcement point — thread to Secure Firewall and segmentation when security joins the room",
+          "Campus identity and guest access → ISE and Duo without leading with 'security sale'",
+          "Same refresh budget may cover DC uplinks — thread when they mention data centre or AI plans"
+        ],
+        "sme_depth": "Campus and branch, Catalyst and Meraki, Wi‑Fi, Hybrid Mesh Firewall, ThousandEyes"
+      },
+      "data-center": {
+        "label": "Data Centre",
+        "role": "entry-or-pull-through",
+        "door_openers": [
+          "DC fabric refresh or automation",
+          "UCS and compute modernisation",
+          "AI/GPU cluster and power planning",
+          "Hybrid cloud workload placement",
+          "Intersight and operational simplification"
+        ],
+        "attach_from_security": [
+          "Workload segmentation gaps → DC fabric and policy",
+          "Cloud consistency questions → Nexus and automation",
+          "AI/GPU plans exposing power, fabric, and east-west gaps",
+          "Splunk/XDR data gravity → observability in the DC"
+        ],
+        "pivot_to_platform": [
+          "East-west in the fabric is a security outcome — thread to segmentation and XDR when they name breach or compliance",
+          "AI workloads need policy isolation — thread to AI Defense and Secure Firewall without derailing DC sizing",
+          "Automation and observability compound with network refresh — thread when campus is in same programme"
+        ],
+        "sme_depth": "Nexus, UCS, Intersight, workload security, AI-ready infrastructure"
+      },
+      "collaboration": {
+        "label": "Collaboration",
+        "role": "entry-or-pull-through",
+        "door_openers": [
+          "Webex consolidation and platform sprawl",
+          "Hybrid meeting and calling experience",
+          "Contact centre modernisation",
+          "Device and room system refresh",
+          "Calling cost and carrier renewal"
+        ],
+        "attach_from_security": [
+          "Hybrid workforce security → Webex and calling security",
+          "Platform sprawl and shadow collab → consolidation story",
+          "Contact centre and customer trust → compliance-led collab refresh",
+          "Identity thread from Duo → single sign-on into collaboration"
+        ],
+        "pivot_to_platform": [
+          "External joiners and guest access are identity problems — thread to Duo when fraud or compliance surfaces",
+          "Contact centre recordings and PHI — thread to security and compliance without FUD",
+          "Same hybrid user base drives Secure Access — thread when VPN or app access pain appears in collab discovery"
+        ],
+        "sme_depth": "Webex Suite, calling, contact centre, devices, hybrid meeting experience"
+      }
+    },
+    "threads": [
+      {
+        "id": "audit-to-platform",
+        "name": "Audit → platform arc",
+        "security_trigger": "SNI audit, Risk Advisory, or insurance/compliance renewal",
+        "arc": "Scored audit → edge/segmentation gaps → network refresh → identity attach → optional collab/DC when customer names the pain",
+        "partner_motion": "Tier 2: disti SE sizes refresh; security funds the first conversation"
+      },
+      {
+        "id": "refresh-to-security",
+        "name": "Refresh → security attach",
+        "security_trigger": "Network refresh RFP or Meraki/Catalyst renewal",
+        "arc": "Refresh in flight → policy enforcement and segmentation at the firewall → Secure Access and Duo on the same estate → XDR when SOC pain surfaces",
+        "partner_motion": "Partner-led network deal; security attach before close protects margin"
+      },
+      {
+        "id": "identity-thread",
+        "name": "Identity as cross-pillar thread",
+        "security_trigger": "MFA gaps, stolen credential fear, or M365-only identity",
+        "arc": "Duo entry → Secure Access for app reach → ISE for campus → Webex identity for collab",
+        "partner_motion": "Lowest-friction SKU; compounds every other pillar"
+      },
+      {
+        "id": "ai-dc-thread",
+        "name": "AI readiness → DC + security",
+        "security_trigger": "AI adoption, GPU plans, or shadow AI discovery in audit",
+        "arc": "Shadow AI in audit → AI Defense → DC fabric and segmentation for workload isolation → observability",
+        "partner_motion": "Executive-led; disti brings DC SE when sizing matters"
+      },
+      {
+        "id": "network-first",
+        "name": "Network-first → platform",
+        "entry_pillar": "networking",
+        "arc": "Campus/branch refresh or Meraki/Catalyst renewal → policy enforcement and segmentation at the firewall → identity and Secure Access when access pain surfaces → optional collab/DC in same programme",
+        "partner_motion": "Answer the RFP as network SME first; disti SE owns sizing; security attach before close when policy or compliance enters"
+      },
+      {
+        "id": "dc-first",
+        "name": "DC-first → platform",
+        "entry_pillar": "data-center",
+        "arc": "Fabric, UCS, or AI-ready DC conversation → east-west and workload isolation → security segmentation and XDR when breach or compliance named → network campus if same capital cycle",
+        "partner_motion": "Lead with Intersight/Nexus/UCS depth; bring security when isolation or AI risk surfaces"
+      },
+      {
+        "id": "collab-first",
+        "name": "Collab-first → platform",
+        "entry_pillar": "collaboration",
+        "arc": "Webex consolidation or contact centre refresh → hybrid experience and device estate → identity/Duo when guest access or fraud raised → Secure Access when same users hit app access pain",
+        "partner_motion": "Lead with collab economics and experience; thread security when compliance or identity enters"
+      }
+    ]
   },
   "messaging": [
     {
@@ -502,14 +671,118 @@
         "t1-sellers"
       ],
       "added_at": "2026-07-12T23:55:00"
+    },
+    {
+      "category": "platform-thread",
+      "pillar": "cross-pillar",
+      "topic": "Security-led one Cisco platform story",
+      "content": "THE DOOR — Security is how they already think about you: audit, breach pressure, insurance, identity, refresh at the edge. THE ROOM — One architecture story: network as enforcement point, security as visibility and response, collaboration and DC as workloads that inherit the same policy. THE RULE — Never pivot to networking or collab because the slide deck has a section; pivot when the customer names refresh, sprawl, hybrid pain, or AI plans.",
+      "audiences": ["tier2-partners", "disti-teams"],
+      "added_at": "2026-07-17T12:00:00"
+    },
+    {
+      "category": "platform-thread",
+      "pillar": "security",
+      "topic": "When to stay security-only",
+      "content": "Stay deep on security when: the sponsor is CISO or security lead only; budget is security line-item; partner bench is security-only; deal is Qualified on a named security motion. Your job is SME depth — XDR correlation, ZTNA posture, segmentation design — not platform breadth for its own sake.",
+      "audiences": ["tier2-partners", "t1-sellers"],
+      "added_at": "2026-07-17T12:00:00"
+    },
+    {
+      "category": "platform-thread",
+      "pillar": "cross-pillar",
+      "topic": "When the first call is not security",
+      "content": "Networking, DC, or collab inbound: answer as SME on THAT pillar first — sizing, architecture, economics, disti SE role. Do not force security opener. Pivot to platform (including security) only when: segmentation/identity/policy appears in network; isolation/compliance/AI risk in DC; guest access/fraud/hybrid access in collab. THE RETURN — one sentence tying pillars together, not a second pitch.",
+      "audiences": ["tier2-partners", "disti-teams"],
+      "added_at": "2026-07-17T14:00:00"
+    },
+    {
+      "category": "platform-thread",
+      "pillar": "networking",
+      "topic": "Network-first pivot to platform",
+      "content": "After answering refresh/Wi‑Fi/SD-WAN as network SME: 'The same refresh is where segmentation policy lives — worth one conversation with security before PO.' 'If hybrid access is on the pain list, Secure Access often lands on the same user base.' 'DC uplinks and AI plans in the same programme? That is a fabric conversation — we can thread when you are ready.' Stop if they close the door.",
+      "audiences": ["tier2-partners", "disti-teams"],
+      "added_at": "2026-07-17T14:00:00"
+    },
+    {
+      "category": "platform-thread",
+      "pillar": "data-center",
+      "topic": "DC-first pivot to platform",
+      "content": "After UCS/Nexus/AI-ready depth: 'East-west in the fabric is the isolation question security teams ask at audit — we can align policy if that is on your calendar.' 'GPU workloads without segmentation is the shadow-AI conversation in another language.' 'Campus refresh in the same capital cycle? Network and DC compound on one architecture call.'",
+      "audiences": ["tier2-partners", "tier1-leadership"],
+      "added_at": "2026-07-17T14:00:00"
+    },
+    {
+      "category": "platform-thread",
+      "pillar": "collaboration",
+      "topic": "Collab-first pivot to platform",
+      "content": "After Webex/calling/contact centre SME work: 'Guest joiners and external meetings are an identity conversation — Duo threads without a separate security project.' 'PHI or recordings in contact centre? That is compliance language security buyers already use.' 'Same hybrid users hitting VPN for apps? Secure Access often follows collab consolidation.'",
+      "audiences": ["tier2-partners", "disti-teams"],
+      "added_at": "2026-07-17T14:00:00"
+    },
+    {
+      "category": "framework",
+      "pillar": "cross-pillar",
+      "topic": "SME depth vs platform breadth",
+      "content": "Three modes: (1) SECURITY-ONLY — CISO-only, security budget, qualified security motion. (2) SECURITY-LED PLATFORM — default inbound; expand on refresh/sprawl/hybrid/AI signals. (3) PILLAR-FIRST — network/DC/collab inbound; SME answer standalone; optional platform pivot when routing.pillar_first_pivot_when signals appear. Never catalogue-sell across pillars in one breath.",
+      "audiences": [],
+      "added_at": "2026-07-17T14:00:00"
+    },
+    {
+      "category": "platform-thread",
+      "pillar": "networking",
+      "topic": "Security-to-network pivot lines",
+      "content": "Natural pivots after security discovery: 'The firewall you are refreshing is where segmentation policy lives — that is a network conversation with a security outcome.' 'Your SNI branch score says edge hygiene; that is campus and Meraki/Catalyst refresh timing, not a SKU dump.' 'East-west visibility is a network telemetry problem with a security consequence.'",
+      "audiences": ["tier2-partners", "disti-teams"],
+      "added_at": "2026-07-17T12:00:00"
+    },
+    {
+      "category": "platform-thread",
+      "pillar": "data-center",
+      "topic": "Security-to-DC pivot lines",
+      "content": "Natural pivots: 'When AI workloads land, the question is not GPU count first — it is who can move laterally in the fabric.' 'Cloud policy gaps you flagged in audit become DC and automation conversations when workloads repatriate or burst.' 'Splunk and XDR data gravity pulls observability into the DC — same team, same budget cycle.'",
+      "audiences": ["tier2-partners", "tier1-leadership"],
+      "added_at": "2026-07-17T12:00:00"
+    },
+    {
+      "category": "platform-thread",
+      "pillar": "collaboration",
+      "topic": "Security-to-collaboration pivot lines",
+      "content": "Natural pivots: 'Hybrid access pain is the same user whether they reach an app or a meeting.' 'Three meeting platforms is a shadow-IT story — same discovery motion as SaaS visibility in audit.' 'Contact centre fraud and customer trust are security outcomes with a Webex buying centre.'",
+      "audiences": ["tier2-partners", "disti-teams"],
+      "added_at": "2026-07-17T12:00:00"
+    },
+    {
+      "category": "play",
+      "pillar": "networking",
+      "topic": "Campus and branch refresh (Tier 2 pull-through)",
+      "content": "Attach from security refresh or SNI edge gaps. Catalyst and Meraki renewal with firewall as policy point. Discovery question: 'When does your network refresh land relative to your security audit findings?' Disti SE carries sizing; partner carries install relationship.",
+      "audiences": ["tier2-partners", "disti-teams"],
+      "added_at": "2026-07-17T12:00:00"
+    },
+    {
+      "category": "play",
+      "pillar": "data-center",
+      "topic": "AI-ready DC and workload segmentation",
+      "content": "Attach from AI plans, GPU projects, or segmentation gaps in audit. Nexus and automation for consistent policy; workload isolation as security outcome. Discovery question: 'Where will inference workloads live — and who owns east-west policy when they do?'",
+      "audiences": ["tier1-leadership", "tier2-partners"],
+      "added_at": "2026-07-17T12:00:00"
+    },
+    {
+      "category": "play",
+      "pillar": "collaboration",
+      "topic": "Webex consolidation (Tier 2)",
+      "content": "Attach from hybrid workforce security and SaaS sprawl findings. Calling, meetings, and devices under one policy story — identity from Duo threads cleanly. Discovery question: 'How many meeting and calling platforms are you paying for — and who can join from outside without your security team knowing?'",
+      "audiences": ["tier2-partners", "disti-teams"],
+      "added_at": "2026-07-17T12:00:00"
     }
   ],
   "prompts": {
     "style-guide": {
-      "text": "Write in Brandon Randell's established voice (Partner Security Account Executive, Cisco Canada): Declarative, short sentences. Sentence-case headers that end with a period ('The motion is built when the cadence is built.'). Each section or slide closes with an em-dash kicker: 'THE RULE — ...', 'THE COMPOUND — ...'. Core vocabulary: motion, practice, play, bench, compound, seed, door-opener, pull-through. Canadian English (organisation, programme, centre), metric, CAD. Canadian examples: credit unions, school boards, Crown corporations, PHIPA/PIPEDA/OSFI/FINTRAC. Numbers written plainly ('up to 85 per cent off' in prose, '85%' in tables). Competitor names appear once, for orientation — 'what you displace matters less than what you put in its place.' Never oversell; the confidence is in the brevity. Footer pattern: 'Cisco Canada Partner Growth · FY26' + document series name.",
-      "notes": "Derived from FY26_Partner_Playbook_From_Quote_to_Practice and why-this-audit-objection-handler. The voice IS the brand — apply to every deliverable.",
-      "updated_at": "2026-07-12T23:30:00",
-      "version": 1
+      "text": "Write in Brandon Randell's established voice (Partner Security Account Executive expanding portfolio, Cisco Canada): Declarative, short sentences. Sentence-case headers that end with a period. Em-dash kickers: 'THE RULE — ...', 'THE COMPOUND — ...', 'THE THREAD — ...'. LEAD WITH SECURITY — audit, breach pressure, insurance, identity, edge refresh — because that is how customers and Tier 2 partners find you. THEN COMPOUND into one Cisco platform only when the thread is natural: network as enforcement, DC as workload destination, collab as the same hybrid user. Never catalogue-sell; thread-sell. Core vocabulary: motion, practice, play, bench, compound, seed, door-opener, pull-through, platform thread. Canadian English, CAD, Canadian verticals (credit unions, school boards, Crown corps, PHIPA/PIPEDA/OSFI). Insider voice: market force first, product second. Footer: 'Cisco Canada Partner Growth · FY26' + series name.",
+      "notes": "Security-led, platform-capable. Lead with the door; expand to the room when earned.",
+      "updated_at": "2026-07-17T12:00:00",
+      "version": 2
     },
     "deck-from-master": {
       "text": "Adapt master content into a slide deck: One idea per slide. Slide header is a declarative sentence with a period. Body in 2-3 labelled columns (e.g. 'SELLING TODAY / EXTEND INTO / CUSTOMER FIT'), each column 2-4 short paragraphs max. Close each slide with an em-dash kicker line ('THE SEQUENCE — ...'). 8-14 slides total. Page footer with series name and page numbers. Cut anything the target audience wouldn't act on (see audience profile 'avoid' list). Leadership gets economics and cadence; sellers get talk tracks and incentives; tier 2 gets entry motions and disti support.",
@@ -524,9 +797,33 @@
       "version": 1
     },
     "playbook": {
-      "text": "Playbook format (like 'From Quote to Practice'): open with who the partner is / who the customer is / why now (three market forces). Then the reward stack (seller / bench / practice). Then the plays (numbered, each with motion type label). Then paths (A/B/C) with SELLING TODAY / EXTEND INTO / CUSTOMER FIT structure. Competitive section: four threats, four answers, one 'THE RULE' kicker. Close with PVI progression, operating cadence, disti role split, and 'the motion exists' call to action. 12-16 pages.",
-      "notes": "The flagship long-form format.",
-      "updated_at": "2026-07-12T23:30:00",
+      "text": "Playbook format (like 'From Quote to Practice'): open with who the partner is / who the customer is / why now (three market forces). Security door-opener first. Then one Cisco platform thread (security → network → identity → collab/DC when earned). Reward stack (seller / bench / practice). Plays by pillar — security plays numbered first, pull-through plays labelled NETWORK / DC / COLLAB. Paths (A/B/C) with SELLING TODAY / EXTEND INTO / CUSTOMER FIT. Competitive section. Close with PVI, disti role split, platform compound call to action. 12-16 pages.",
+      "notes": "Security-led platform playbook.",
+      "updated_at": "2026-07-17T12:00:00",
+      "version": 2
+    },
+    "platform-story": {
+      "text": "Structure every security-led platform narrative in four beats: 1) THE TRIGGER — what the customer already feels (audit score, breach, insurance, refresh deadline). 2) THE SECURITY OUTCOME — what good looks like in 90 days (visibility, access, segmentation). 3) THE PLATFORM THREAD — one sentence per pillar only if the customer or partner opened the door (network refresh, DC/AI, collab sprawl). 4) THE NEXT STEP — one dated action, one owner. Do not list SKUs; list architecture decisions. Close with THE COMPOUND — how each pillar makes the next cheaper to adopt.",
+      "notes": "Default narrative mode for Tier 2 disti-led motions. Use with build_platform_brief.",
+      "updated_at": "2026-07-17T12:00:00",
+      "version": 1
+    },
+    "pillar-deep-dive": {
+      "text": "When going deep on one pillar (security, networking, data-center, collaboration): open with one-line tie-back to the security trigger that earned the conversation. Then SME depth — architecture patterns, discovery questions, disti SE vs partner roles, proof points, objections for THAT pillar only. Do not re-pitch other pillars unless the customer asks. Close with THE RETURN — how this pillar work strengthens the platform story already in flight.",
+      "notes": "Use when sponsor or deal is single-pillar but security opened the door.",
+      "updated_at": "2026-07-17T12:00:00",
+      "version": 1
+    },
+    "pillar-first": {
+      "text": "When the first conversation is networking, data centre, or collaboration — not security: 1) THE ASK — answer their RFP, refresh, or sizing question as SME on THAT pillar. No forced security opener. 2) SME DEPTH — architecture, economics, disti SE vs partner roles, objections for that pillar only. 3) OPTIONAL PIVOT — one sentence toward platform (including security) ONLY if routing.pillar_first_pivot_when signals appear; use pivot_to_platform lines from the pillar profile. 4) THE NEXT STEP — one dated action on their pillar. Close with THE RETURN only if you pivoted — one line tying pillars, not a second pitch.",
+      "notes": "Use with build_platform_brief story_mode=pillar-first and pillar=networking|data-center|collaboration.",
+      "updated_at": "2026-07-17T14:00:00",
+      "version": 1
+    },
+    "security-only": {
+      "text": "Stay security-only when routing.security_only applies: CISO-only sponsor, security line-item budget, or Qualified on a named security motion. Structure: 1) THE TRIGGER — audit, breach, insurance, compliance. 2) THE SECURITY OUTCOME — visibility, access, segmentation in 90 days. 3) SME DEPTH — XDR, ZTNA, firewall, identity for THIS deal only. Do NOT introduce networking, DC, or collab pull-through. Close with one security next step and owner.",
+      "notes": "Use with build_platform_brief story_mode=security-only.",
+      "updated_at": "2026-07-17T14:00:00",
       "version": 1
     },
     "test-prompt": {

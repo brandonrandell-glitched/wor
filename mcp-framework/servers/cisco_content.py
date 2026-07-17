@@ -72,30 +72,38 @@ def upsert_audience(name: str, profile: dict) -> str:
 # ---------------------------------------------------------------- messaging
 
 def find_messaging(query: str = "", category: Optional[str] = None,
-                   audience: Optional[str] = None) -> str:
+                   audience: Optional[str] = None,
+                   pillar: Optional[str] = None) -> str:
     q = query.strip().lower()
     data = _load()
     hits = []
     for m in data["messaging"]:
         if category and m.get("category") != category:
             continue
+        if pillar and m.get("pillar") != pillar and m.get("pillar") != "cross-pillar":
+            continue
         if audience and audience not in (m.get("audiences") or []) \
                 and m.get("audiences"):
             continue
         blob = " ".join([m.get("topic", ""), m.get("content", ""),
-                         m.get("category", "")]).lower()
+                         m.get("category", ""), m.get("pillar", "")]).lower()
         if q and q not in blob:
             continue
         hits.append(m)
     cats = sorted(set(m.get("category", "") for m in data["messaging"]))
+    pillars = sorted(set(m.get("pillar", "") for m in data["messaging"] if m.get("pillar")))
     return json.dumps({"count": len(hits), "categories_available": cats,
-                       "results": hits}, ensure_ascii=False)
+                       "pillars_available": pillars, "results": hits},
+                      ensure_ascii=False)
 
 def add_messaging(category: str, topic: str, content: str,
-                  audiences: Optional[list] = None) -> str:
+                  audiences: Optional[list] = None,
+                  pillar: str = "") -> str:
     data = _load()
     entry = {"category": category, "topic": topic, "content": content,
              "audiences": audiences or [], "added_at": _now()}
+    if pillar:
+        entry["pillar"] = pillar
     data["messaging"].append(entry)
     _save(data)
     return json.dumps({"success": True, "total_messaging": len(data["messaging"])})
@@ -212,6 +220,207 @@ def build_brief(audience: str, deliverable: str, topic: str = "") -> str:
         "related_assets": related,
     }, ensure_ascii=False)
 
+
+def get_platform_story(pillar: str = "", entry_pillar: str = "") -> str:
+    """Return the one-Cisco platform model with routing for entry pillar."""
+    data = _load()
+    platform = data.get("platform", {})
+    if not platform:
+        return json.dumps({"error": "Platform model not configured."})
+
+    entry = _slug(entry_pillar) if entry_pillar else platform.get("entry_pillar", "security")
+    if not entry:
+        entry = "security"
+
+    routing = platform.get("routing", {})
+    threads = platform.get("threads", [])
+    pillars = platform.get("pillars", {})
+
+    out = {
+        "headline": platform.get("headline"),
+        "story_principle": platform.get("story_principle"),
+        "entry_pillar": entry,
+        "routing": routing,
+        "pillars": pillars,
+        "threads": threads,
+        "recommended_story_mode": _recommended_story_mode(entry, routing),
+        "usage": (
+            "security-only: CISO-only / security budget / qualified security motion. "
+            "security-led: default inbound security with platform expansion on signals. "
+            "pillar-first: network/DC/collab inbound — SME answer first, pivot when earned. "
+            "pillar-deep: security opened the door; go deep on one pillar. "
+            "Call build_platform_brief for a full drafting package."
+        ),
+    }
+
+    pkey = _slug(pillar) if pillar else entry
+    if pkey and pkey in pillars:
+        out["pillar_focus"] = pillars[pkey]
+        pivot_topic = {
+            "networking": "Network-first pivot to platform",
+            "data-center": "DC-first pivot to platform",
+            "collaboration": "Collab-first pivot to platform",
+            "security": "When to stay security-only",
+        }.get(pkey)
+        if pivot_topic:
+            hits = json.loads(find_messaging(query=pivot_topic))["results"]
+            out["pivot_messaging"] = hits[:3] if hits else []
+        else:
+            out["pivot_messaging"] = json.loads(
+                find_messaging(pillar=pkey, category="platform-thread"))["results"]
+
+    thread_id = {
+        "networking": "network-first",
+        "data-center": "dc-first",
+        "collaboration": "collab-first",
+    }.get(entry)
+    if thread_id:
+        out["entry_thread"] = next((t for t in threads if t.get("id") == thread_id), None)
+
+    return json.dumps(out, ensure_ascii=False)
+
+
+def _recommended_story_mode(entry: str, routing: dict) -> str:
+    if entry == "security":
+        return "security-led"
+    if entry in ("networking", "data-center", "collaboration"):
+        return "pillar-first"
+    return "security-led"
+
+
+def _filter_audience(msgs: list, aud_key: str) -> list:
+    return [m for m in msgs if not m.get("audiences") or aud_key in m["audiences"]]
+
+
+def build_platform_brief(audience: str, deliverable: str, topic: str = "",
+                         pillar: str = "", story_mode: str = "security-led") -> str:
+    """Platform brief with security-only, security-led, pillar-first, or pillar-deep modes."""
+    data = _load()
+    platform = data.get("platform", {})
+
+    aud = json.loads(get_audiences(audience))
+    if "error" in aud:
+        return json.dumps(aud)
+
+    mode = story_mode.strip().lower()
+    valid_modes = ("security-only", "security-led", "pillar-first", "pillar-deep")
+    if mode not in valid_modes:
+        return json.dumps({"error": f"story_mode must be one of: {', '.join(valid_modes)}"})
+
+    key = aud["key"]
+    pkey = _slug(pillar) if pillar else ""
+    routing = platform.get("routing", {})
+
+    security_msgs = _filter_audience(
+        json.loads(find_messaging(category="play"))["results"], key)
+    if topic:
+        topic_hits = json.loads(find_messaging(query=topic))["results"]
+        security_msgs = topic_hits + [m for m in security_msgs if m not in topic_hits]
+
+    platform_threads = _filter_audience(
+        json.loads(find_messaging(category="platform-thread"))["results"], key)
+
+    pull_through = []
+    if mode not in ("security-only", "pillar-first"):
+        for p in ("networking", "data-center", "collaboration"):
+            pull_through.extend(json.loads(find_messaging(pillar=p, category="play"))["results"])
+    elif mode == "pillar-first" and pkey:
+        pull_through = []  # optional pivot only via pivot_messaging
+
+    pillar_msgs: list = []
+    pivot_msgs: list = []
+    entry_pillar = "security"
+
+    if mode == "security-only":
+        pivot_msgs = _filter_audience(
+            [m for m in platform_threads if m.get("topic") == "When to stay security-only"],
+            key)
+        entry_pillar = "security"
+
+    elif mode == "pillar-deep":
+        if not pkey:
+            return json.dumps({"error": "pillar-deep requires pillar (security, networking, data-center, collaboration)."})
+        pillar_msgs = json.loads(find_messaging(pillar=pkey))["results"]
+        if not pillar_msgs:
+            pillar_msgs = json.loads(find_messaging(query=pillar))["results"]
+        entry_pillar = "security"
+
+    elif mode == "pillar-first":
+        if not pkey or pkey == "security":
+            return json.dumps({"error": "pillar-first requires pillar: networking, data-center, or collaboration."})
+        pillar_msgs = json.loads(find_messaging(pillar=pkey, category="play"))["results"]
+        pillar_msgs += json.loads(find_messaging(pillar=pkey, category="platform-thread"))["results"]
+        pivot_map = {
+            "networking": "Network-first pivot to platform",
+            "data-center": "DC-first pivot to platform",
+            "collaboration": "Collab-first pivot to platform",
+        }
+        pivot_msgs = json.loads(find_messaging(query=pivot_map.get(pkey, "")))["results"]
+        entry_pillar = pkey
+
+    style = data["prompts"].get("style-guide", {}).get("text", "")
+    narrative_key = {
+        "security-only": "security-only",
+        "security-led": "platform-story",
+        "pillar-first": "pillar-first",
+        "pillar-deep": "pillar-deep-dive",
+    }[mode]
+    narrative = data["prompts"].get(narrative_key, {}).get("text", "")
+
+    fmt_key = _slug(deliverable)
+    fmt_hits = [k for k in data["prompts"] if fmt_key in k or k in fmt_key]
+    fmt = data["prompts"][fmt_hits[0]]["text"] if fmt_hits else ""
+
+    related = [a for a in data["assets"]
+               if not topic or topic.lower() in
+               " ".join([a.get("title", ""), a.get("campaign", "")]).lower()]
+
+    instructions = {
+        "security-only": (
+            "Stay security-only per routing.security_only. No networking, DC, or collab pull-through. "
+            "SME depth on the security motion in flight."
+        ),
+        "security-led": (
+            "Draft security-first. Use platform threads only where the customer or partner "
+            "opened the door — expand on refresh, sprawl, hybrid, or AI signals."
+        ),
+        "pillar-first": (
+            f"Answer as {pkey} SME first — sizing, architecture, economics. "
+            "Optional platform pivot only when routing.pillar_first_pivot_when signals appear."
+        ),
+        "pillar-deep": (
+            f"Security opened the door; go deep on '{pkey}'. "
+            "Tie back to security trigger; use THE RETURN if platform thread is in flight."
+        ),
+    }
+
+    pillar_profile = platform.get("pillars", {}).get(pkey, {}) if pkey else {}
+
+    return json.dumps({
+        "instruction": instructions[mode],
+        "story_mode": mode,
+        "entry_pillar": entry_pillar,
+        "deliverable": deliverable,
+        "topic": topic,
+        "audience": aud,
+        "routing": routing,
+        "platform": {
+            "headline": platform.get("headline"),
+            "story_principle": platform.get("story_principle"),
+            "threads": platform.get("threads", []),
+            "pillar_profile": pillar_profile,
+        },
+        "security_messaging": security_msgs[:20] if mode != "pillar-first" else [],
+        "platform_threads": platform_threads if mode == "security-led" else [],
+        "pull_through_plays": pull_through,
+        "pillar_content": pillar_msgs,
+        "pivot_messaging": pivot_msgs,
+        "style_guide": style,
+        "narrative_prompt": narrative,
+        "format_prompt": fmt,
+        "related_assets": related,
+    }, ensure_ascii=False)
+
 # ---------------------------------------------------------------- MCP exports
 
 TOOLS = [
@@ -232,6 +441,42 @@ TOOLS = [
                 "topic": {"type": "string", "description": "Optional topic/campaign filter, e.g. 'firewall seeding', 'audit'."},
             },
             "required": ["audience", "deliverable"],
+        },
+    },
+    {
+        "name": "build_platform_brief",
+        "description": (
+            "Platform narrative drafting context for Tier 2 / disti. Story modes: "
+            "'security-led' (default — expand on refresh/sprawl/hybrid/AI signals), "
+            "'security-only' (CISO-only, security budget, qualified security motion), "
+            "'pillar-first' + pillar (network/DC/collab inbound — SME answer first, optional pivot), "
+            "'pillar-deep' + pillar (security opened door; SME depth on one pillar)."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "audience": {"type": "string", "description": "Target audience, e.g. 'tier2-partners', 'disti-teams'."},
+                "deliverable": {"type": "string", "description": "deck, playbook, one-pager, objection-handler."},
+                "topic": {"type": "string", "description": "Optional topic filter, e.g. 'audit', 'campus refresh'."},
+                "pillar": {"type": "string", "description": "Required for pillar-first/deep: networking, data-center, collaboration, security."},
+                "story_mode": {"type": "string", "description": "security-led (default), security-only, pillar-first, or pillar-deep.", "default": "security-led"},
+            },
+            "required": ["audience", "deliverable"],
+        },
+    },
+    {
+        "name": "get_platform_story",
+        "description": (
+            "Return the one-Cisco platform model with routing rules. Use entry_pillar when "
+            "the first conversation is networking, data-center, or collaboration — not security. "
+            "Optional pillar focus for pivot lines and SME depth."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "pillar": {"type": "string", "description": "Optional focus: networking, data-center, collaboration, security."},
+                "entry_pillar": {"type": "string", "description": "How the deal entered: security (default), networking, data-center, collaboration."},
+            },
         },
     },
     {
@@ -263,8 +508,9 @@ TOOLS = [
             "type": "object",
             "properties": {
                 "query": {"type": "string", "description": "Text to search for. Empty returns all (filtered by category/audience)."},
-                "category": {"type": "string", "description": "Optional: play, path, competitive, objection, proof-point, incentive, market-force, cadence."},
+                "category": {"type": "string", "description": "Optional: play, path, platform-thread, competitive, objection, proof-point, incentive, market-force, cadence, framework."},
                 "audience": {"type": "string", "description": "Optional audience key filter."},
+                "pillar": {"type": "string", "description": "Optional pillar filter: security, networking, data-center, collaboration, cross-pillar."},
             },
         },
     },
@@ -278,6 +524,7 @@ TOOLS = [
                 "topic": {"type": "string", "description": "Short topic label."},
                 "content": {"type": "string", "description": "The messaging content."},
                 "audiences": {"type": "array", "items": {"type": "string"}, "description": "Audience keys this applies to. Empty = universal."},
+                "pillar": {"type": "string", "description": "Optional: security, networking, data-center, collaboration, cross-pillar."},
             },
             "required": ["category", "topic", "content"],
         },
@@ -339,10 +586,17 @@ TOOLS = [
 
 TOOL_HANDLERS = {
     "build_brief": lambda a: build_brief(a["audience"], a["deliverable"], a.get("topic", "")),
+    "build_platform_brief": lambda a: build_platform_brief(
+        a["audience"], a["deliverable"], a.get("topic", ""),
+        a.get("pillar", ""), a.get("story_mode", "security-led")),
+    "get_platform_story": lambda a: get_platform_story(
+        a.get("pillar", ""), a.get("entry_pillar", "")),
     "get_audiences": lambda a: get_audiences(a.get("name")),
     "upsert_audience": lambda a: upsert_audience(a["name"], a["profile"]),
-    "find_messaging": lambda a: find_messaging(a.get("query", ""), a.get("category"), a.get("audience")),
-    "add_messaging": lambda a: add_messaging(a["category"], a["topic"], a["content"], a.get("audiences")),
+    "find_messaging": lambda a: find_messaging(
+        a.get("query", ""), a.get("category"), a.get("audience"), a.get("pillar")),
+    "add_messaging": lambda a: add_messaging(
+        a["category"], a["topic"], a["content"], a.get("audiences"), a.get("pillar", "")),
     "get_prompt": lambda a: get_prompt(a.get("name")),
     "save_prompt": lambda a: save_prompt(a["name"], a["prompt"], a.get("notes", "")),
     "register_asset": lambda a: register_asset(

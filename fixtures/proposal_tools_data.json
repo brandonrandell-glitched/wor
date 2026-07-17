@@ -47,5 +47,49 @@
     "Insufficient identity verification for privileged users": ["Cisco Duo", "Cisco ISE"],
     "Difficulty enforcing least-privilege access at scale": ["Cisco Secure Access", "Cisco ISE"]
   },
-  "default_recommendations": ["Cisco Secure Access", "Cisco XDR"]
+  "default_recommendations": ["Cisco Secure Access", "Cisco XDR"],
+  "platform_pull_through": {
+    "Inconsistent security policy enforcement across hybrid environments": {
+      "security": ["Cisco Secure Access", "Cisco Firewall", "Cisco Duo"],
+      "networking": ["Cisco Catalyst", "Cisco Meraki", "Cisco ISE"],
+      "data_center": ["Cisco Nexus", "Cisco Intersight"],
+      "collaboration": ["Webex Suite"]
+    },
+    "Limited visibility into east-west traffic and lateral movement": {
+      "security": ["Cisco XDR", "Cisco Secure Network Analytics", "Cisco Secure Firewall"],
+      "networking": ["Cisco Catalyst", "Cisco ThousandEyes", "Cisco ISE"],
+      "data_center": ["Cisco Nexus", "Cisco Intersight"],
+      "collaboration": []
+    },
+    "Slow incident detection and response times": {
+      "security": ["Cisco XDR", "Cisco Secure Endpoint"],
+      "networking": ["Cisco Secure Network Analytics"],
+      "data_center": ["Splunk integration", "Cisco Nexus telemetry"],
+      "collaboration": []
+    },
+    "Gaps in endpoint coverage across remote workforce": {
+      "security": ["Cisco Secure Access", "Cisco Secure Endpoint", "Cisco Duo"],
+      "networking": ["Cisco Meraki SD-WAN"],
+      "data_center": [],
+      "collaboration": ["Webex Suite", "Webex Calling"]
+    },
+    "Shadow IT and ungoverned cloud application usage": {
+      "security": ["Cisco Secure Access", "Cisco Umbrella", "Cisco AI Defense"],
+      "networking": [],
+      "data_center": ["Cisco Intersight", "Cisco Nexus"],
+      "collaboration": ["Webex Suite consolidation"]
+    },
+    "Compliance gaps in data residency and audit trails": {
+      "security": ["Cisco Secure Access", "Cisco ISE", "Cisco Duo"],
+      "networking": ["Cisco Catalyst segmentation"],
+      "data_center": ["Cisco UCS", "Cisco Nexus"],
+      "collaboration": ["Webex compliance and recording"]
+    }
+  },
+  "platform_threads": {
+    "audit": "SNI or Risk Advisory → edge gaps → network refresh → identity → optional collab/DC",
+    "refresh": "Network refresh → firewall policy point → Secure Access + Duo → XDR when SOC pain surfaces",
+    "identity": "Duo → Secure Access → ISE campus → Webex identity",
+    "ai": "Shadow AI in audit → AI Defense → DC fabric segmentation → observability"
+  }
 }

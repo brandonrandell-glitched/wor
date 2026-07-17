@@ -67,6 +67,28 @@ Configured in `.cursor/mcp.json`:
 
 All tools use fixtures and public content only.
 
+## Narrative model — security-led, platform-capable
+
+Inbound traffic is expected **security-first**, but networking, data centre, and collaboration are **first-class entry points** when that is how the deal arrives. The content engine routes narrative depth — never catalogue-sells across pillars.
+
+| When | Story mode | Behaviour |
+|------|------------|-----------|
+| CISO-only sponsor, security line-item budget, Qualified on named security motion | `security-only` | SME depth on security only — no pull-through |
+| Default security inbound; customer names refresh, sprawl, hybrid, AI | `security-led` | Security door → platform thread when earned |
+| Network / DC / collab RFP or renewal first | `pillar-first` + pillar | Answer as SME on that pillar; optional pivot when policy/compliance/identity surfaces |
+| Security opened the door; single-pillar evaluation | `pillar-deep` + pillar | Tie-back to security trigger, then SME depth |
+
+| Tool | Use |
+|------|-----|
+| `cisco-content` → `build_platform_brief` | Drafting context for any story mode above |
+| `cisco-content` → `get_platform_story` | Rehearse routing, pivot lines, entry thread before calls |
+| `proposal-tools` → `recommend_platform_story` | Map pain points to products; pass `entry_pillar` for non-security inbound |
+| `partner-ops` → `platform_view` | See security entry vs pull-through in pipeline |
+
+**Story modes:** `security-led` (default) · `security-only` · `pillar-first` + pillar · `pillar-deep` + pillar
+
+**Entry pillars:** `security` · `networking` · `data-center` · `collaboration`
+
 ## Tests
 
 ```bash
