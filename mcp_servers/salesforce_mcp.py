@@ -57,4 +57,4 @@ def handler(name, args):
 
 
 if __name__ == "__main__":
-    run_server(TOOLS, handler)
+    run_server(TOOLS, handler, server_name="salesforce")

@@ -44,4 +44,4 @@ def handler(name, args):
     return {"error": f"Unknown tool: {name}"}
 
 if __name__ == "__main__":
-    run_server(TOOLS, handler)
+    run_server(TOOLS, handler, server_name="salesconnect")
