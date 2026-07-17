@@ -1,0 +1,37 @@
+{
+  "_schema": "gtm-partner-ops-v1",
+  "_notice": "Copy to fixtures/real_partner_ops.json. Replace SAMPLE partners with your book. ACV values in CAD.",
+  "partners": {
+    "your-partner-slug": {
+      "name": "Your Partner Name",
+      "tier": 2,
+      "path": "A - Meraki-led",
+      "pvi": 4.2,
+      "black_belt_pct": 25,
+      "disti_rep": "Disti rep name",
+      "notes": "Real partner notes",
+      "touches": [
+        {"at": "2026-07-01T10:00:00", "note": "Last QBR — pipeline review"}
+      ]
+    }
+  },
+  "deals": [
+    {
+      "key": "deal-slug",
+      "name": "Customer motion name",
+      "partner": "your-partner-slug",
+      "stage": 25,
+      "motion": "Reignite Firewall",
+      "cx_lifecycle": "place",
+      "partner_goal": "Trusted Advisor",
+      "acv": 120000,
+      "close_date": "2026-12-31",
+      "notes": "Real deal notes",
+      "created_at": "2026-06-01T09:00:00",
+      "updated_at": "2026-07-01T09:00:00",
+      "stage_history": [
+        {"stage": 25, "at": "2026-07-01T09:00:00"}
+      ]
+    }
+  ]
+}

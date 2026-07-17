@@ -27,8 +27,21 @@ from lib.lifecycle import (
     STAGE_TO_LIFECYCLE,
 )
 
+from lib.data_sources import data_mode, fixtures_dir, partner_ops_path
+
 SERVER_NAME = "partner-ops"
-DATA_PATH = Path(__file__).parent / "data" / "partner_ops.json"
+REAL_PARTNER_OPS = "real_partner_ops.json"
+DEMO_PARTNER_OPS = Path(__file__).parent / "data" / "partner_ops.json"
+
+
+def _read_path() -> Path:
+    return partner_ops_path()
+
+
+def _write_path() -> Path:
+    if data_mode() == "demo":
+        return DEMO_PARTNER_OPS
+    return fixtures_dir() / REAL_PARTNER_OPS
 
 STAGES = {10: "Early", 25: "Qualified", 50: "Evaluation",
           75: "Negotiation", 90: "Close"}
@@ -56,14 +69,16 @@ def _motion_pillar(motion: str) -> str:
     return "security"
 
 def _load() -> dict:
-    if DATA_PATH.exists():
-        with open(DATA_PATH, "r", encoding="utf-8") as f:
+    path = _read_path()
+    if path.exists():
+        with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
     return {"partners": {}, "deals": []}
 
 def _save(data: dict):
-    DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with open(DATA_PATH, "w", encoding="utf-8") as f:
+    path = _write_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 def _now() -> str:

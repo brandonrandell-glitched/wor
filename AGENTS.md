@@ -57,9 +57,12 @@ python -m agents.cli "Acme Financial Services" --workflow proposal --generate
 | Source | Purpose |
 |--------|---------|
 | `fixtures/public_content.json` | Public products, proof points, competitive, offers |
-| `fixtures/salesforce_customer.json` | Demo scenario for `Acme Financial Services` |
+| `fixtures/real_customers.json` | **Your accounts** (gitignored — see [docs/REAL_DATA.md](docs/REAL_DATA.md)) |
+| `fixtures/salesforce_customer.json` | Demo fallback (`Acme Financial Services`) |
 | `fixtures/proposal_tools_data.json` | Pain-point and product-matching patterns |
 | Seller Q&A | Customer-specific details during intake |
+
+Set `GTM_DATA_MODE=auto|real|demo`. Run `python scripts/init_real_data.py` to create real-data files.
 
 ## MCP Tools (Cursor)
 

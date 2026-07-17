@@ -7,9 +7,14 @@ sys.path.insert(0, str(ROOT / "mcp_servers"))
 
 from _mcp_base import run_server
 
-from lib.gtm_tools import get_customer_context, suggest_opportunities
+from lib.gtm_tools import get_customer_context, list_customers, suggest_opportunities
 
 TOOLS = [
+    {
+        "name": "list_customers",
+        "description": "List customer accounts available from real or demo data store.",
+        "inputSchema": {"type": "object", "properties": {}},
+    },
     {
         "name": "get_customer_context",
         "description": "Load customer account data and previous proposal preferences.",
@@ -40,6 +45,8 @@ USE_LIVE = False
 
 
 def handler(name, args):
+    if name == "list_customers":
+        return {"customers": list_customers()}
     if name == "get_customer_context":
         result = get_customer_context(args["customer_account"])
         if not result:

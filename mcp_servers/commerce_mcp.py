@@ -11,11 +11,16 @@ from _mcp_base import run_server
 
 import json
 
-COMMERCE_FIXTURE = ROOT / "fixtures" / "commerce_renewals.json"
+from lib.data_sources import commerce_path
+
+COMMERCE_FIXTURE = commerce_path()
 
 
 def _load() -> dict:
-    with open(COMMERCE_FIXTURE, encoding="utf-8") as f:
+    path = commerce_path()
+    if not path.exists():
+        return {"accounts": {}, "license_bundles": {}}
+    with open(path, encoding="utf-8") as f:
         return json.load(f)
 
 

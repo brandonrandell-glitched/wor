@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from lib.data_sources import get_customer_record, list_customer_accounts, data_status
 from lib.public_content import (
     get_competitive,
     get_offer,
@@ -15,7 +16,6 @@ from lib.public_content import (
 )
 
 ROOT = Path(__file__).resolve().parent.parent
-SALESFORCE_FIXTURE = ROOT / "fixtures" / "salesforce_customer.json"
 TOOLS_FIXTURE = ROOT / "fixtures" / "proposal_tools_data.json"
 
 PROOF_TOPICS_BY_PRODUCT = {
@@ -35,13 +35,14 @@ def _strip_internal(data: Any) -> Any:
 
 
 def get_customer_context(customer_account: str) -> dict[str, Any] | None:
-    if not SALESFORCE_FIXTURE.exists():
+    record = get_customer_record(customer_account)
+    if not record:
         return None
-    with open(SALESFORCE_FIXTURE) as f:
-        data = json.load(f)
-    if data.get("customer_account") != customer_account:
-        return None
-    return _strip_internal(data)
+    return _strip_internal(record)
+
+
+def list_customers() -> list[dict[str, str]]:
+    return list_customer_accounts()
 
 
 def suggest_opportunities(

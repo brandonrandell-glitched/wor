@@ -13,6 +13,8 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from agents.router import GTMRouter
+from lib.data_sources import data_status
+from lib.gtm_tools import list_customers
 from story_library.competitive_brief import generate_competitive_brief
 from story_library.discovery_brief import generate_discovery_brief
 from story_library.generator import generate_proposal
@@ -156,11 +158,23 @@ def download_document(session_id: str):
     return send_file(path, as_attachment=True, download_name=path.name)
 
 
+@app.get("/api/customers")
+def list_customer_accounts():
+    return jsonify({
+        "customers": list_customers(),
+        "data": data_status(),
+    })
+
+
 @app.get("/api/health")
 def health():
+    status = data_status()
     return jsonify({
         "status": "ok",
         "mode": "public",
+        "data_mode": status["mode"],
+        "data_effective": status["effective"],
+        "customer_count": status["customer_count"],
         "workflows": [w["id"] for w in router.list_workflows()],
         "message": "Using public Cisco content and seller-provided inputs only. No API credentials required.",
     })

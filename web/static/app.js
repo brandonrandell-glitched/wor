@@ -19,6 +19,8 @@ const generateBtn = document.getElementById("generate-btn");
 const downloadLink = document.getElementById("download-link");
 const continuePanel = document.getElementById("continue-panel");
 const continueButtons = document.getElementById("continue-buttons");
+const customerSuggestions = document.getElementById("customer-suggestions");
+const dataModeHint = document.getElementById("data-mode-hint");
 
 function updateWorkflowDesc() {
   const wf = (window.WORKFLOWS || []).find((w) => w.id === workflowSelect.value);
@@ -182,6 +184,32 @@ fetch("/api/health")
   .then((r) => r.json())
   .then((data) => {
     const badge = document.getElementById("mode-badge");
-    if (badge) badge.textContent = data.mode === "public" ? "Public content" : data.mode;
+    if (badge) {
+      const label = data.data_effective === "real" ? "Real data" : "Demo data";
+      badge.textContent = label;
+    }
+    if (dataModeHint && data.data_effective) {
+      dataModeHint.textContent =
+        data.data_effective === "real"
+          ? `Real account data loaded (${data.customer_count} account(s)). Public Cisco content only — no API keys.`
+          : "Demo mode — run python scripts/init_real_data.py to load your accounts.";
+    }
+  })
+  .catch(() => {});
+
+fetch("/api/customers")
+  .then((r) => r.json())
+  .then((data) => {
+    if (!customerSuggestions || !data.customers) return;
+    customerSuggestions.innerHTML = "";
+    for (const c of data.customers) {
+      const opt = document.createElement("option");
+      opt.value = c.name;
+      customerSuggestions.appendChild(opt);
+    }
+    const real = data.data?.effective === "real";
+    if (real && data.customers.length && customerInput) {
+      customerInput.value = data.customers[0].name;
+    }
   })
   .catch(() => {});

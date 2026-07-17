@@ -1,0 +1,34 @@
+{
+  "_schema": "gtm-commerce-v1",
+  "_notice": "Copy to fixtures/real_commerce_renewals.json. Contract values in CAD.",
+  "accounts": {
+    "Example Credit Union": {
+      "customer_account": "Example Credit Union",
+      "contracts": [
+        {
+          "contract_id": "SUB-2024-001",
+          "product_family": "Cisco Secure Access",
+          "days_to_renewal": 45,
+          "status": "renewal_at_risk",
+          "annual_value_cad": 92000
+        }
+      ],
+      "value_realization": [
+        "Reduced VPN tickets 30% after Secure Access pilot"
+      ],
+      "attach_candidates": ["Cisco XDR", "Cisco Duo"]
+    }
+  },
+  "license_bundles": {
+    "renewal-protection": {
+      "name": "Renewal Protection Bundle",
+      "products": ["Cisco Secure Access", "Cisco XDR"],
+      "talk_track": "Protect recurring revenue with bundled renewal and attach."
+    },
+    "security-expansion": {
+      "name": "Security Expansion Bundle",
+      "products": ["Cisco Duo", "Cisco Secure Endpoint"],
+      "talk_track": "Expand footprint from identity attach on renewal window."
+    }
+  }
+}

@@ -33,10 +33,12 @@
             type="text"
             placeholder="e.g. Acme Financial Services"
             value="Acme Financial Services"
+            list="customer-suggestions"
           />
+          <datalist id="customer-suggestions"></datalist>
           <button id="start-btn" type="button">Start</button>
         </div>
-        <p class="hint">Uses public Cisco product info plus what you provide. No API keys or logins required. Try <code>Acme Financial Services</code> for a demo scenario.</p>
+        <p class="hint" id="data-mode-hint">Uses public Cisco product info plus what you provide. No API keys or logins required.</p>
       </section>
 
       <section class="chat" id="chat" hidden>

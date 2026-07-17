@@ -1,0 +1,29 @@
+{
+  "_schema": "gtm-customers-v1",
+  "_notice": "Copy to fixtures/real_customers.json (gitignored). Add one object per customer account. Amounts in CAD.",
+  "_currency": "CAD",
+  "customers": {
+    "Example Credit Union": {
+      "customer_account": "Example Credit Union",
+      "industry": "Financial Services",
+      "org_size": "500-1000",
+      "deal_id": "OPP-2026-00001",
+      "cisco_technologies_proposed": ["Cisco Secure Access", "Cisco Duo"],
+      "current_infrastructure": "Hybrid cloud, Meraki at branches, legacy ASA at HQ, Duo partial rollout",
+      "opportunities": [
+        {
+          "deal_id": "OPP-2026-00001",
+          "name": "Zero Trust Branch Access",
+          "stage": "Qualified",
+          "amount": 185000
+        }
+      ],
+      "previous_proposal": {
+        "language": "English",
+        "proposal_output_format": "word",
+        "proposal_form_length": "long"
+      },
+      "notes": "Replace with your Salesforce export fields. savm_id is stripped automatically and never exported."
+    }
+  }
+}

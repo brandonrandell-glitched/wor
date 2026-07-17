@@ -38,12 +38,20 @@ See [AGENTS.md](AGENTS.md) for architecture, handoffs, and MCP tool details.
 
 ## Data Sources
 
-| Source | What it provides |
-|--------|------------------|
-| `fixtures/public_content.json` | Public product summaries, proof points, competitive, offers |
-| `fixtures/salesforce_customer.json` | Optional demo scenario (`Acme Financial Services`) |
-| `fixtures/proposal_tools_data.json` | Pain-point and product-matching patterns |
-| Seller Q&A | Real customer details you enter during intake |
+| Source | Purpose |
+|--------|---------|
+| `fixtures/public_content.json` | Public products, proof points, competitive, offers |
+| `fixtures/real_*.json` | **Your accounts, partners, renewals** (gitignored) |
+| `fixtures/salesforce_customer.json` | Demo fallback (`Acme Financial Services`) |
+| Seller Q&A | Details you enter during intake |
+
+**Switch to real data:** [docs/REAL_DATA.md](docs/REAL_DATA.md)
+
+```bash
+python scripts/init_real_data.py
+# edit fixtures/real_customers.json
+export GTM_DATA_MODE=real
+```
 
 No SalesConnect, Salesforce, or OAuth tokens required.
 
