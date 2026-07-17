@@ -1,0 +1,79 @@
+{
+  "market": {
+    "region": "Canada",
+    "currency": "CAD",
+    "locale": "en-CA",
+    "scope": "Canadian partners, customers, market, currency, and outcomes only — no US persona or USD framing.",
+    "compliance_frameworks": ["PHIPA", "PIPEDA", "OSFI", "FINTRAC"]
+  },
+  "assessments": [
+    {
+      "customer": "Acme Financial Services (SAMPLE)",
+      "partner": "Northstar Technology Group (SAMPLE)",
+      "at": "2026-07-17T08:48:17",
+      "answers": [2, 1, 2, 1, 1, 1, 2, 2, 1, 1],
+      "dimension_scores": {
+        "Branch Security": 3,
+        "Remote Access": 3,
+        "Cloud Visibility": 2,
+        "Identity Enforcement": 4,
+        "Net + Sec Convergence": 2
+      },
+      "total": 14,
+      "tier": "Foundational",
+      "design_clinic": true,
+      "recommended_actions": [
+        {
+          "gap": "Cloud Visibility",
+          "score": 2,
+          "action": "Unified cloud posture review including shadow AI discovery — Cloud play; AI Defense assessment where shadow AI surfaced."
+        },
+        {
+          "gap": "Net + Sec Convergence",
+          "score": 2,
+          "action": "Segmentation and convergence workshop mapping east-west visibility gaps — Segmentation play built on the firewall as policy enforcement point."
+        },
+        {
+          "gap": "Branch Security",
+          "score": 3,
+          "action": "Firewall rule hygiene review and edge refresh assessment — candidate for the Secure Networking play (firewall seeding, TCF pricing at refresh)."
+        }
+      ],
+      "notes": "SAMPLE — Ontario credit-union profile: hybrid cloud, legacy firewalls, OSFI/PIPEDA pressure. Typical Canadian mid-market gaps; not a live customer session."
+    },
+    {
+      "customer": "Acme Financial Services (SAMPLE)",
+      "partner": "Maple Ridge Networks (SAMPLE)",
+      "at": "2026-07-17T09:12:23",
+      "answers": [2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+      "dimension_scores": {
+        "Branch Security": 3,
+        "Remote Access": 3,
+        "Cloud Visibility": 3,
+        "Identity Enforcement": 3,
+        "Net + Sec Convergence": 3
+      },
+      "total": 15,
+      "tier": "Foundational",
+      "design_clinic": true,
+      "recommended_actions": [
+        {
+          "gap": "Branch Security",
+          "score": 3,
+          "action": "Firewall rule hygiene review and edge refresh assessment — candidate for the Secure Networking play (firewall seeding, TCF pricing at refresh)."
+        },
+        {
+          "gap": "Remote Access",
+          "score": 3,
+          "action": "ZTNA/SSE pilot for the highest-friction user group — Zero Trust Access play (Umbrella to Secure Access at the 50-seat threshold)."
+        },
+        {
+          "gap": "Cloud Visibility",
+          "score": 3,
+          "action": "Unified cloud posture review including shadow AI discovery — Cloud play; AI Defense assessment where shadow AI surfaced."
+        }
+      ],
+      "notes": "SAMPLE — Ontario school-board MSP motion; PHIPA-aware audit framing for Canadian public-sector buyers."
+    }
+  ]
+}

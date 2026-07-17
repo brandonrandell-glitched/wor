@@ -1,4 +1,10 @@
 {
+  "market": {
+    "region": "Canada",
+    "currency": "CAD",
+    "locale": "en-CA",
+    "scope": "Canadian partners, customers, market, currency, and outcomes only — no US persona or USD defaults."
+  },
   "audiences": {
     "tier1-leadership": {
       "label": "Tier 1 Partner Leadership",
@@ -522,7 +528,7 @@
     {
       "category": "play",
       "topic": "Named motion - Reignite Firewall",
-      "content": "Network & firewall refresh: modernise aging estates onto FTD 10.0 / Hybrid Mesh Firewall; often rides on Catalyst or Meraki refresh. Typical ACV $150K-$2M, 90-180 days. Assets: firewall rule hygiene, migration workshop, virtual-patching demo. The label matters - it tells the Cisco AM what support to line up.",
+      "content": "Network & firewall refresh: modernise aging estates onto FTD 10.0 / Hybrid Mesh Firewall; often rides on Catalyst or Meraki refresh. Typical ACV CAD 150K–2M, 90-180 days. Assets: firewall rule hygiene, migration workshop, virtual-patching demo. The label matters - it tells the Cisco AM what support to line up.",
       "audiences": [
         "t1-sellers"
       ],
@@ -531,7 +537,7 @@
     {
       "category": "play",
       "topic": "Named motion - Project Meteor",
-      "content": "Cross-pillar ZTA + Segmentation: Zero Trust Access + Secure Networking + Segmentation combined (SSE + ISE + Firewall + Secure Workload). Typical ACV $500K-$5M, 180-270 days. Assets: Universal ZTA session, identity/network/workload threading, EA consolidation.",
+      "content": "Cross-pillar ZTA + Segmentation: Zero Trust Access + Secure Networking + Segmentation combined (SSE + ISE + Firewall + Secure Workload). Typical ACV CAD 500K–5M, 180-270 days. Assets: Universal ZTA session, identity/network/workload threading, EA consolidation.",
       "audiences": [
         "t1-sellers"
       ],
@@ -540,7 +546,7 @@
     {
       "category": "play",
       "topic": "Named motion - Breach Protection by XDR",
-      "content": "SOC modernisation: replace or augment legacy SIEM with XDR + Splunk ES; rides on Splunk renewal or cyber insurance cycle. Typical ACV $200K-$3M, 90-150 days. Assets: SOC maturity assessment, Splunk data onboarding, XDR CTF hands-on.",
+      "content": "SOC modernisation: replace or augment legacy SIEM with XDR + Splunk ES; rides on Splunk renewal or cyber insurance cycle. Typical ACV CAD 200K–3M, 90-150 days. Assets: SOC maturity assessment, Splunk data onboarding, XDR CTF hands-on.",
       "audiences": [
         "t1-sellers"
       ],
@@ -549,7 +555,7 @@
     {
       "category": "play",
       "topic": "Named motion - AI-Ready Security",
-      "content": "AI Defense + Hypershield + Secure AI Factory. Lead with AI Defense for shadow AI visibility, expand into Hypershield + Secure Workload; co-sell with DC / AI Pod teams. Typical ACV $300K-$5M, 120-240 days. Assets: shadow AI exposure assessment, AI risk posture workshop, Secure AI Factory review.",
+      "content": "AI Defense + Hypershield + Secure AI Factory. Lead with AI Defense for shadow AI visibility, expand into Hypershield + Secure Workload; co-sell with DC / AI Pod teams. Typical ACV CAD 300K–5M, 120-240 days. Assets: shadow AI exposure assessment, AI risk posture workshop, Secure AI Factory review.",
       "audiences": [
         "t1-sellers"
       ],

@@ -1,6 +1,10 @@
 # GTM Agent Ecosystem
 
-Multi-workflow assistant platform for Cisco sellers. Uses **public Cisco content** and **seller-provided inputs** only — no API credentials or logins.
+Multi-workflow assistant platform for **Cisco Canada** sellers and partners. Uses **public Cisco content** and **seller-provided inputs** only — no API credentials or logins.
+
+## Market scope
+
+**Canada only** — Canadian partners, customers, compliance frameworks (PHIPA, PIPEDA, OSFI, FINTRAC), **CAD** currency, and Canadian outcomes. Do not apply US partner-growth persona, USD defaults, or US-only vertical framing.
 
 ## Workflows
 

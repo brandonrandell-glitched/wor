@@ -1,5 +1,5 @@
 {
-  "_notice": "PUBLIC LENS - SAMPLE DATA ONLY. All partners and deals below are fictional, for demonstrating the mechanics. On the internal rebuild, delete these records and load real partner data there. Do not enter real partner names, PVI scores, or deal values in this public copy.",
+  "_notice": "PUBLIC LENS - SAMPLE DATA ONLY. All partners and deals below are fictional, for demonstrating the mechanics. Values are CAD for the Canadian market. On the internal rebuild, delete these records and load real partner data there. Do not enter real partner names, PVI scores, or deal values in this public copy.",
   "partners": {
     "maple-ridge-networks-sample": {
       "name": "Maple Ridge Networks (SAMPLE)",

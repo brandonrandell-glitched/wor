@@ -1,6 +1,10 @@
 {
   "_source": "Network Security Architecture Content Development.xlsx (colleague resource, Jul 2026)",
-  "_notice": "Programme names and assets are reference scaffolding — verify US/CA availability before customer-facing use.",
+  "_notice": "Canada-scoped programme names and assets — verify Canadian disti/Cisco Canada availability before customer-facing use. No US persona framing.",
+  "market": {
+    "region": "Canada",
+    "currency": "CAD"
+  },
   "entries": [
     {
       "id": "analyze",

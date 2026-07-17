@@ -14,9 +14,16 @@ Customer Audit Form wording via update via save-over of QUESTIONS in this
 file, or keep as-is for partner-led sessions.
 """
 import json
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, Union
+
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from lib.market import MARKET
 
 SERVER_NAME = "sni-scorer"
 DATA_PATH = Path(__file__).parent / "data" / "sni_data.json"
@@ -78,10 +85,14 @@ SPRINT_TARGETS = {"accounts_targeted": 15, "audit_sessions": "6-8",
 def _load() -> dict:
     if DATA_PATH.exists():
         with open(DATA_PATH, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return {"assessments": []}
+            data = json.load(f)
+    else:
+        data = {"assessments": []}
+    data.setdefault("market", MARKET)
+    return data
 
 def _save(data: dict):
+    data.setdefault("market", MARKET)
     DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(DATA_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
@@ -97,10 +108,13 @@ def _tier(total: int) -> str:
 def get_questionnaire() -> str:
     return json.dumps({
         "title": "Secure Networking Index — 30-Minute Readiness Audit",
+        "market": MARKET,
         "how_to_run": ("Ask the ten questions conversationally. Score each 0-3 "
                        "using the scoring guide. Keep it vendor-agnostic — no "
                        "product names in the room. Score live; the customer "
-                       "keeps the output."),
+                       "keeps the output. Frame outcomes for Canadian buyers "
+                       "(PHIPA, PIPEDA, OSFI, FINTRAC where relevant); CAD "
+                       "commercial context only."),
         "dimensions": DIMENSIONS,
         "questions": QUESTIONS,
         "tiers": [{"range": "{}-{}".format(lo, hi), "tier": name}
