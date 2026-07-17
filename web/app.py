@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 import uuid
 from pathlib import Path
@@ -19,6 +20,7 @@ from story_library.generator import generate_proposal
 app = Flask(__name__)
 router = GTMRouter()
 outputs: dict[str, Path] = {}
+(ROOT / "output").mkdir(parents=True, exist_ok=True)
 
 GENERATORS = {
     "proposal": generate_proposal,
@@ -165,7 +167,10 @@ def health():
 
 
 def main():
-    app.run(host="127.0.0.1", port=8080, debug=True)
+    host = os.environ.get("HOST", "127.0.0.1")
+    port = int(os.environ.get("PORT", "8080"))
+    debug = os.environ.get("FLASK_DEBUG", "1") == "1"
+    app.run(host=host, port=port, debug=debug)
 
 
 if __name__ == "__main__":

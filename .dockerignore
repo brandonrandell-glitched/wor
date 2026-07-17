@@ -1,0 +1,13 @@
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.git
+.gitignore
+output
+.env
+.DS_Store
+*.md
+!README.md
+.cursor
+agent-transcripts

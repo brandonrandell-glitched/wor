@@ -13,6 +13,13 @@ pip install -r requirements.txt
 python -m web.app
 # Open http://127.0.0.1:8080
 
+## Deploy (live URL)
+
+See [docs/DEPLOY.md](docs/DEPLOY.md). Fastest path:
+
+1. [Render](https://dashboard.render.com) → **New** → **Blueprint** → connect this repo.
+2. Or locally: `HOST=0.0.0.0 PORT=8080 FLASK_DEBUG=0 gunicorn --bind 0.0.0.0:8080 --workers 1 web.app:app`
+
 # CLI
 python -m agents.cli "Acme Financial Services" --workflow proposal --generate
 python -m agents.cli "Acme Financial Services" --workflow discovery --generate
