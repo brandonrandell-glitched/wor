@@ -7,7 +7,12 @@ sys.path.insert(0, str(ROOT / "mcp_servers"))
 
 from _mcp_base import run_server
 
-from lib.gtm_tools import extract_pain_points, recommend_platform_story, recommend_products
+from lib.gtm_tools import (
+    extract_pain_points,
+    meddpicc_gaps,
+    recommend_platform_story,
+    recommend_products,
+)
 
 TOOLS = [
     {
@@ -68,6 +73,30 @@ TOOLS = [
             "required": ["pain_points"],
         },
     },
+    {
+        "name": "meddpicc_gaps",
+        "description": (
+            "Return MEDDPICC qualification gaps for a lifecycle stage (analyze, place, land, "
+            "adopt, expand, renew) with suggested discovery questions."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "meddpicc": {
+                    "type": "object",
+                    "description": "Captured MEDDPICC fields, e.g. {metrics, economic_buyer, champion}",
+                },
+                "lifecycle_stage": {
+                    "type": "string",
+                    "default": "analyze",
+                },
+                "pain_points": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+            },
+        },
+    },
 ]
 
 USE_LIVE = False
@@ -92,6 +121,12 @@ def handler(name, args):
             args["pain_points"],
             args.get("existing_technologies"),
             args.get("entry_pillar", "security"),
+        )
+    if name == "meddpicc_gaps":
+        return meddpicc_gaps(
+            args.get("meddpicc"),
+            args.get("lifecycle_stage", "analyze"),
+            args.get("pain_points"),
         )
     return {"error": f"Unknown tool: {name}"}
 

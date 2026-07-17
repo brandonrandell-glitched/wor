@@ -1,0 +1,231 @@
+{
+  "_source": "Network Security Architecture Content Development.xlsx (colleague resource, Jul 2026)",
+  "_notice": "Programme names and assets are reference scaffolding — verify US/CA availability before customer-facing use.",
+  "entries": [
+    {
+      "id": "analyze",
+      "partner_goal": "Strategic Consultant",
+      "cx_lifecycle_stage": "ANALYZE / NEED",
+      "cx_lifecycle_short": "analyze",
+      "aplaer_focus": "Analyze: Utilize market data, install-base telemetry, and competitive intelligence to identify latent opportunities before the customer issues an RFP",
+      "meddpicc_focus": "Metrics / Identify Pain: Quantify the cost of inaction; use telemetry to identify performance or security gaps and calculate potential ROI",
+      "cisco_assets": [
+        "Market Data & Insights",
+        "Ideal Customer Profile",
+        "PX Cloud Telemetry",
+        "Splunk Observability",
+        "ThousandEyes",
+        "Customer Assessment Incentive",
+        "PXP Analytics"
+      ],
+      "partner_actions": [
+        "Analyze Sales/Web/Events Data",
+        "Deploy assessment probes (Shadow IT audit, Network Health Check)",
+        "Analyze telemetry for Propensity to Buy",
+        "Baseline current security posture",
+        "Leverage PS & MS data"
+      ],
+      "certifications": [
+        "SABSA Foundation",
+        "TOGAF Certification",
+        "Cisco Certified Design Expert (CCDE)",
+        "Cisco Certified Internetwork Expert (CCIE)",
+        "Cisco AI Infrastructure Specialist",
+        "Cisco 360 Solution Specializations",
+        "Gartner Critical Capabilities Reports"
+      ],
+      "default_mcp_tools": ["sni-scorer.get_questionnaire", "proposal-tools.extract_pain_points", "cisco-content.get_content_matrix"],
+      "deal_stage_map": [10, 25]
+    },
+    {
+      "id": "place",
+      "partner_goal": "Trusted Advisor",
+      "cx_lifecycle_stage": "PLACE / EVALUATE",
+      "cx_lifecycle_short": "place",
+      "aplaer_focus": "Place: Align the technical solution with the customer's long-term Business Architecture within Governance and Risk frameworks",
+      "meddpicc_focus": "Decision Criteria / Competition: Engage the Economic Buyer; empower the Champion with business cases",
+      "cisco_assets": [
+        "Cisco Validated Designs (CVDs)",
+        "SAFE Security Architecture",
+        "Industry Blueprints",
+        "Reference Architectures",
+        "Demo/POC/POV Frameworks",
+        "Fire Jumper Elite (Architecture Track)",
+        "CDA (Country Digital Acceleration)"
+      ],
+      "partner_actions": [
+        "Conduct Assessments & Workshops",
+        "Develop Maturity Models",
+        "Conduct SABSA/TOGAF workshops",
+        "Develop Business Attribute Profiles",
+        "Create 3-5 year Strategic Roadmaps",
+        "Utilize Analyst Reports"
+      ],
+      "certifications": [
+        "Cisco Smartnet Data Collector",
+        "Cisco Black Belt Academy (Stage 2 and 3)",
+        "CRM Certified",
+        "CSM Platform",
+        "Data Analyst"
+      ],
+      "default_mcp_tools": ["cisco-content.build_platform_brief", "cisco-content.get_platform_story", "salesconnect.search_competitive"],
+      "deal_stage_map": [25]
+    },
+    {
+      "id": "land",
+      "partner_goal": "Thought Leader",
+      "cx_lifecycle_stage": "LAND / SELECT / ALIGN",
+      "cx_lifecycle_short": "land",
+      "aplaer_focus": "Land: Execute a value-based sales cycle — technical fit to business outcome; determine Consumption & Operations decisions",
+      "meddpicc_focus": "Economic Buyer / Decision Process: Influence RFP with CVDs; differentiate with Battle Cards; implicate the Pain",
+      "cisco_assets": [
+        "Competitive Battle Cards",
+        "ROI/TCO Calculators",
+        "Data Sheets",
+        "RFP Content",
+        "Early Field Testing",
+        "Account Mapping tools",
+        "Cisco Partner Incentive (CPI)",
+        "Migration Incentives",
+        "Deal Registration (OIP/TIP)"
+      ],
+      "partner_actions": [
+        "Build Org/Relationship Maps",
+        "Define Lab/PoV criteria",
+        "Respond to RFPs",
+        "Create Service Catalogs",
+        "Execute MEDDPICC qualification",
+        "Deliver Proof of Value (POV) labs",
+        "Conduct executive briefings"
+      ],
+      "certifications": [
+        "Cisco Black Belt Sales (Stage 2)",
+        "Sales Methodology",
+        "Cisco Commerce Workspace (CCW) Mastery",
+        "Cisco Fire Jumper (Pre-Sales Stage 3)",
+        "Cisco U",
+        "DevNet",
+        "Security Workshops"
+      ],
+      "default_mcp_tools": ["proposal-tools.recommend_platform_story", "agents.proposal", "salesconnect.get_offer_detail"],
+      "deal_stage_map": [50]
+    },
+    {
+      "id": "adopt",
+      "partner_goal": "Reliable Operator",
+      "cx_lifecycle_stage": "ADOPT / ONBOARD / IMPLEMENT",
+      "cx_lifecycle_short": "adopt",
+      "aplaer_focus": "Adopt: Ensure successful deployment (Day 0-1) and drive feature utilization (Day 2); prevent shelfware; analyze usage telemetry",
+      "meddpicc_focus": "Delivering on Metrics: Prove value promised in Land phase; ensure Metrics are achieved; implicate Pain & Champion",
+      "cisco_assets": [
+        "Journey Maps",
+        "Design Clinics",
+        "Configuration Guides",
+        "PDI Frameworks",
+        "Fire Jumper Support",
+        "CX Specialization",
+        "Lifecycle Incentives (LCI)",
+        "Mentored Install Network (MIN)",
+        "DevNet Resources"
+      ],
+      "partner_actions": [
+        "Develop & Follow Method of Procedure (MOP)",
+        "Train end-users",
+        "Monitor feature usage via PX Cloud",
+        "Conduct Health Checks",
+        "Provide Tier 1-2 Support",
+        "Augment with Cisco services"
+      ],
+      "certifications": [
+        "ITIL 4 Certification",
+        "ITSM",
+        "PMP",
+        "Cisco Certified Customer Success Manager (CCSM)",
+        "Cisco Powered Services Audits",
+        "Cisco Fire Jumper (Deployment Track)",
+        "DevNet Associate"
+      ],
+      "default_mcp_tools": ["agents.discovery", "sni-scorer.score_assessment"],
+      "deal_stage_map": [75]
+    },
+    {
+      "id": "expand",
+      "partner_goal": "Strategic Services Partner",
+      "cx_lifecycle_stage": "EXPAND / OPTIMIZE",
+      "cx_lifecycle_short": "expand",
+      "aplaer_focus": "Expand: Analyze adoption data and business outcomes to find new opportunities; identify whitespace",
+      "meddpicc_focus": "Re-run MEDDPICC: Identify new Pain and Metrics; leverage Champion to expand into new buying centres",
+      "cisco_assets": [
+        "Offer Creation Frameworks",
+        "Service Build Guides",
+        "Profitability Models",
+        "Innovation Challenges",
+        "Propensity to Buy Models",
+        "DevNet Sandboxes",
+        "Solution Specializations"
+      ],
+      "partner_actions": [
+        "Build DevOps & Automation Services",
+        "Create new Service Catalog items",
+        "Transform Operating Model",
+        "Architect cross-domain solutions",
+        "Conduct QBRs",
+        "Integrate third-party tools via APIs"
+      ],
+      "certifications": [
+        "Renewal Manager",
+        "DevNet Professional",
+        "Full Stack Observability Specialization",
+        "Lifecycle Practice Journey"
+      ],
+      "default_mcp_tools": ["partner-ops.platform_view", "proposal-tools.recommend_platform_story"],
+      "deal_stage_map": []
+    },
+    {
+      "id": "renew",
+      "partner_goal": "Trusted Partner",
+      "cx_lifecycle_stage": "RENEW / RECOMMEND / ADVOCATE",
+      "cx_lifecycle_short": "renew",
+      "aplaer_focus": "Renew / Protect: Secure recurring revenue; analyze value realization to defend against competitive displacement",
+      "meddpicc_focus": "Leverage Champion & Metrics: Data-driven value case to Economic Buyer; lock out Competition",
+      "cisco_assets": [
+        "Automation/Management Portals",
+        "Case Study Templates",
+        "Advisory Board Access",
+        "Auto-Quote Tools",
+        "TPV (Total Program View)",
+        "Recurring Revenue protection",
+        "Success Tracks"
+      ],
+      "partner_actions": [
+        "Deliver Value Realization Reports (Case Studies)",
+        "Provide expert Licensing guidance",
+        "Co-innovate with customer R&D",
+        "Participate in Advisory Boards",
+        "Proactively manage contract dates"
+      ],
+      "certifications": [
+        "Cisco Renewals Manager Certification",
+        "Black Belt Renewal Track",
+        "Commerce Workspace (CCW) Mastery"
+      ],
+      "default_mcp_tools": ["commerce.get_renewal_context", "commerce.suggest_license_bundle"],
+      "deal_stage_map": [90]
+    }
+  ],
+  "journey_steps": [
+    {"step": 1, "name": "Current State Analysis", "cx_lifecycle": "analyze", "platform_thread": "SNI audit / Risk Advisory"},
+    {"step": 2, "name": "Ideal Customer Profile", "cx_lifecycle": "analyze", "platform_thread": "Audience + industry messaging"},
+    {"step": 3, "name": "Industry Portfolio Explorer", "cx_lifecycle": "analyze", "platform_thread": "recommend_platform_story by pillar"},
+    {"step": 4, "name": "Technology Journey Map", "cx_lifecycle": "place", "platform_thread": "build_platform_brief security-led or pillar-first"},
+    {"step": 5, "name": "Consumption Model", "cx_lifecycle": "land", "platform_thread": "Secure Access / subscription motions"},
+    {"step": 6, "name": "Operations Model", "cx_lifecycle": "land", "platform_thread": "Fire Jumper deploy + ITIL/CSM"},
+    {"step": 7, "name": "Technical Assistance", "cx_lifecycle": "adopt", "platform_thread": "Design Clinic (SNI under 16)"},
+    {"step": 8, "name": "Upsell/Cross-Sell", "cx_lifecycle": "expand", "platform_thread": "platform_view pull-through"},
+    {"step": 9, "name": "Renew / Advocate", "cx_lifecycle": "renew", "platform_thread": "commerce renewal + case studies"}
+  ],
+  "foundations": {
+    "analyze": "Leverage sales and customer data to improve efficiency across the customer lifecycle",
+    "place": "Allocate the right resources to the right transactions at the lowest cost"
+  }
+}

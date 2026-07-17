@@ -257,6 +257,21 @@
       }
     ]
   },
+  "lifecycle": {
+    "headline": "ANALYZE → PLACE → LAND → ADOPT → EXPAND → RENEW",
+    "matrix_source": "mcp-framework/servers/data/network_security_content_matrix.json",
+    "deal_stage_map": {
+      "10": "analyze",
+      "25": "place",
+      "50": "land",
+      "75": "adopt",
+      "90": "renew"
+    },
+    "foundations": {
+      "analyze": "Leverage sales and customer data across the lifecycle",
+      "place": "Allocate the right resources to the right transactions"
+    }
+  },
   "messaging": [
     {
       "category": "play",

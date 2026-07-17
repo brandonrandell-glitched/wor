@@ -15,6 +15,7 @@ from lib.gtm_tools import (
     recommend_products,
     suggest_opportunities,
 )
+from lib.meddpicc import parse_meddpicc_input, recommend_meddpicc_gaps
 
 VALID_LANGUAGES = {
     "english",
@@ -87,6 +88,7 @@ class Phase(str, Enum):
     TECHNOLOGIES_SELECT = "technologies_select"
     DEAL_CONFIRM = "deal_confirm"
     DEAL_SELECT = "deal_select"
+    MEDDPICC = "meddpicc_optional"
     REVIEW = "review"
     COMPLETE = "complete"
 
@@ -150,6 +152,8 @@ class ProposalAssistant:
             return self._handle_deal_confirm(text)
         if self.phase == Phase.DEAL_SELECT:
             return self._handle_deal_select(text)
+        if self.phase == Phase.MEDDPICC:
+            return self._handle_meddpicc(text)
         if self.phase in (Phase.GREETING,):
             return self._handle_post_intake_field(text)
         if self.phase == Phase.REVIEW:
@@ -443,6 +447,19 @@ class ProposalAssistant:
 
             return self._ask_post_infra_field(field_name)
 
+        self.phase = Phase.MEDDPICC
+        return AssistantResponse(
+            message=(
+                "Optional MEDDPICC for this proposal (LAND stage focus).\n"
+                "Reply with labeled lines — Metrics, Economic Buyer, Decision Criteria, "
+                "Champion, Competition — or type 'skip'."
+            ),
+            phase=Phase.MEDDPICC,
+        )
+
+    def _handle_meddpicc(self, text: str) -> AssistantResponse:
+        if text.strip().lower() not in ("skip", "skip meddpicc", "none"):
+            self.collected["meddpicc"] = parse_meddpicc_input(text)
         self.phase = Phase.REVIEW
         return self._build_review()
 
@@ -737,6 +754,13 @@ class ProposalAssistant:
 
         if fmt == "word":
             result["Proposal Form Length"] = self.collected.get("proposal_form_length", "")
+        meddpicc = self.collected.get("meddpicc")
+        if meddpicc:
+            result["MEDDPICC"] = meddpicc
+            gaps = recommend_meddpicc_gaps(meddpicc, "land", pain_points)
+            if gaps.get("gaps"):
+                result["MEDDPICC Gaps"] = [g["label"] for g in gaps["gaps"]]
+        result["CX Lifecycle Stage"] = "land"
         return result
 
     def _value_or_skipped(self, key: str) -> str:

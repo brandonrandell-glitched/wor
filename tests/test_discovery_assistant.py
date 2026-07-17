@@ -18,6 +18,8 @@ def _complete_discovery(assistant: DiscoveryAssistant) -> dict:
             resp = assistant.process_input("use")
         elif resp.phase == "technologies_confirm":
             resp = assistant.process_input("all")
+        elif resp.phase == "meddpicc_capture":
+            resp = assistant.process_input("skip")
         elif resp.phase == "review":
             resp = assistant.process_input("yes")
         elif resp.phase == "intake":

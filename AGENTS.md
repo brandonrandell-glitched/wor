@@ -89,6 +89,29 @@ Inbound traffic is expected **security-first**, but networking, data centre, and
 
 **Entry pillars:** `security` · `networking` · `data-center` · `collaboration`
 
+## Customer lifecycle (colleague content matrix)
+
+CX spine: **ANALYZE → PLACE → LAND → ADOPT → EXPAND → RENEW** (with ANALYZE/PLACE foundations).
+
+| Lifecycle | Partner goal | Deal stage | Primary tools |
+|-----------|--------------|------------|---------------|
+| analyze | Strategic Consultant | 10 Early, 25 Qualified | `sni-scorer`, `extract_pain_points`, `get_content_matrix` |
+| place | Trusted Advisor | 25 Qualified | `build_platform_brief`, `get_platform_story` |
+| land | Thought Leader | 50 Evaluation | `recommend_platform_story`, proposal workflow |
+| adopt | Reliable Operator | 75 Negotiation | discovery brief, `score_assessment` |
+| expand | Strategic Services Partner | post-close | `platform_view`, `recommend_platform_story` |
+| renew | Trusted Partner | 90 Close | `commerce.get_renewal_context`, `suggest_license_bundle` |
+
+| Tool | Use |
+|------|-----|
+| `cisco-content` → `get_content_matrix` | Assets, actions, certs, MEDDPICC focus per stage |
+| `cisco-content` → `get_lifecycle_guide` | Full spine + 9-step journey |
+| `partner-ops` → `lifecycle_view` | Pipeline by lifecycle stage |
+| `proposal-tools` → `meddpicc_gaps` | Qualification gaps + questions by stage |
+| `commerce` → `get_renewal_context` | Renewal fixture (Acme demo) |
+
+Discovery and proposal workflows capture optional **MEDDPICC** before confirm.
+
 ## Tests
 
 ```bash

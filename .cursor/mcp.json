@@ -30,6 +30,11 @@
     "sni-scorer": {
       "command": "python3",
       "args": ["/Users/brrandel/Desktop/gtm-agent-ecosystem/mcp-framework/mcp_runner.py", "servers.sni_scorer"]
+    },
+    "commerce": {
+      "command": "python3",
+      "args": ["${workspaceFolder}/mcp_servers/commerce_mcp.py"],
+      "cwd": "${workspaceFolder}"
     }
   }
 }

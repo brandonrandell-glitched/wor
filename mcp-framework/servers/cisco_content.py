@@ -14,6 +14,7 @@ from typing import Optional, Union
 
 SERVER_NAME = "cisco-content"
 DATA_PATH = Path(__file__).parent / "data" / "cisco_content.json"
+MATRIX_PATH = Path(__file__).parent / "data" / "network_security_content_matrix.json"
 
 EMPTY = {"audiences": {}, "messaging": [], "prompts": {}, "assets": []}
 
@@ -218,6 +219,56 @@ def build_brief(audience: str, deliverable: str, topic: str = "") -> str:
         "style_guide": style,
         "format_prompt": fmt,
         "related_assets": related,
+    }, ensure_ascii=False)
+
+
+def _load_matrix() -> dict:
+    if MATRIX_PATH.exists():
+        with open(MATRIX_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {"entries": [], "journey_steps": [], "foundations": {}}
+
+
+def get_content_matrix(cx_lifecycle: str = "", partner_goal: str = "") -> str:
+    """Return content matrix row: assets, actions, MEDDPICC focus, certifications."""
+    matrix = _load_matrix()
+    entries = matrix.get("entries", [])
+    lc = _slug(cx_lifecycle) if cx_lifecycle else ""
+    pg = partner_goal.strip().lower()
+
+    hits = list(entries)
+    if lc:
+        hits = [e for e in hits if e.get("cx_lifecycle_short") == lc or e.get("id") == lc]
+    if pg:
+        hits = [e for e in hits if pg in e.get("partner_goal", "").lower()]
+
+    return json.dumps({
+        "count": len(hits),
+        "entries": hits,
+        "available_lifecycle_stages": [e.get("cx_lifecycle_short") for e in entries],
+        "available_partner_goals": [e.get("partner_goal") for e in entries],
+    }, ensure_ascii=False)
+
+
+def get_lifecycle_guide() -> str:
+    """Return full CX lifecycle spine, journey steps, and stage→deal mappings."""
+    matrix = _load_matrix()
+    data = _load()
+    platform = data.get("platform", {})
+    return json.dumps({
+        "headline": "LAND → ADOPT → EXPAND → RENEW with ANALYZE and PLACE foundations",
+        "foundations": matrix.get("foundations", {}),
+        "lifecycle_stages": matrix.get("entries", []),
+        "journey_steps": matrix.get("journey_steps", []),
+        "deal_stage_map": {
+            "10 Early": "analyze",
+            "25 Qualified": "place",
+            "50 Evaluation": "land",
+            "75 Negotiation": "adopt",
+            "90 Close": "renew",
+        },
+        "platform_threads": platform.get("threads", []),
+        "usage": "Call get_content_matrix(cx_lifecycle='analyze') for assets/actions/certs at each stage.",
     }, ensure_ascii=False)
 
 
@@ -465,6 +516,29 @@ TOOLS = [
         },
     },
     {
+        "name": "get_content_matrix",
+        "description": (
+            "Return the Network Security Architecture content matrix for a CX lifecycle stage "
+            "or partner goal: Cisco assets, partner actions, MEDDPICC focus, certifications, "
+            "and recommended MCP tools."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "cx_lifecycle": {"type": "string", "description": "analyze, place, land, adopt, expand, renew"},
+                "partner_goal": {"type": "string", "description": "e.g. Strategic Consultant, Thought Leader"},
+            },
+        },
+    },
+    {
+        "name": "get_lifecycle_guide",
+        "description": (
+            "Return the full customer lifecycle spine (ANALYZE→RENEW), 9-step journey, "
+            "deal-stage mapping, and platform threads."
+        ),
+        "inputSchema": {"type": "object", "properties": {}},
+    },
+    {
         "name": "get_platform_story",
         "description": (
             "Return the one-Cisco platform model with routing rules. Use entry_pillar when "
@@ -589,6 +663,9 @@ TOOL_HANDLERS = {
     "build_platform_brief": lambda a: build_platform_brief(
         a["audience"], a["deliverable"], a.get("topic", ""),
         a.get("pillar", ""), a.get("story_mode", "security-led")),
+    "get_content_matrix": lambda a: get_content_matrix(
+        a.get("cx_lifecycle", ""), a.get("partner_goal", "")),
+    "get_lifecycle_guide": lambda a: get_lifecycle_guide(),
     "get_platform_story": lambda a: get_platform_story(
         a.get("pillar", ""), a.get("entry_pillar", "")),
     "get_audiences": lambda a: get_audiences(a.get("name")),

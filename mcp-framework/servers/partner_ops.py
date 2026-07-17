@@ -14,6 +14,19 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional, Union
 
+import sys
+ROOT = Path(__file__).resolve().parent.parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from lib.lifecycle import (
+    enrich_deal_row,
+    lifecycle_for_deal_stage,
+    lifecycle_label,
+    partner_goal_for_lifecycle,
+    STAGE_TO_LIFECYCLE,
+)
+
 SERVER_NAME = "partner-ops"
 DATA_PATH = Path(__file__).parent / "data" / "partner_ops.json"
 
@@ -133,7 +146,8 @@ def log_touch(partner: str, note: str) -> str:
 
 def upsert_deal(partner: str, deal: str, stage: int,
                 motion: str = "", acv: Union[int, float] = 0,
-                close_date: str = "", notes: str = "") -> str:
+                close_date: str = "", notes: str = "",
+                cx_lifecycle: str = "") -> str:
     if stage not in STAGES:
         return json.dumps({"error": "Stage must be one of {}".format(sorted(STAGES))})
     data = _load()
@@ -155,13 +169,19 @@ def upsert_deal(partner: str, deal: str, stage: int,
                 d["close_date"] = close_date
             if notes:
                 d["notes"] = notes
+            lc = cx_lifecycle or lifecycle_for_deal_stage(stage)
+            d["cx_lifecycle"] = lc
+            d["partner_goal"] = partner_goal_for_lifecycle(lc)
             d["updated_at"] = _now()
             _save(data)
             return json.dumps({"success": True, "updated": d["name"],
                                "stage": "{} ({}%)".format(STAGES[stage], stage)})
+    lc = cx_lifecycle or lifecycle_for_deal_stage(stage)
     d = {"key": dkey, "name": deal.strip(), "partner": pkey, "stage": stage,
          "motion": motion, "acv": acv, "close_date": close_date,
-         "notes": notes, "created_at": _now(), "updated_at": _now(),
+         "notes": notes, "cx_lifecycle": lc,
+         "partner_goal": partner_goal_for_lifecycle(lc),
+         "created_at": _now(), "updated_at": _now(),
          "stage_history": [{"stage": stage, "at": _now()}]}
     data["deals"].append(d)
     _save(data)
@@ -182,6 +202,9 @@ def pipeline_view(partner: str = "") -> str:
         pname = data["partners"].get(d["partner"], {}).get("name", d["partner"])
         row = {"deal": d["name"], "partner": pname,
                "stage": "{} ({}%)".format(STAGES[d["stage"]], d["stage"]),
+               "cx_lifecycle": d.get("cx_lifecycle", lifecycle_for_deal_stage(d["stage"])),
+               "cx_lifecycle_label": lifecycle_label(d.get("cx_lifecycle", lifecycle_for_deal_stage(d["stage"]))),
+               "partner_goal": d.get("partner_goal", partner_goal_for_lifecycle(lifecycle_for_deal_stage(d["stage"]))),
                "motion": d.get("motion", ""), "acv": d.get("acv", 0),
                "close_date": d.get("close_date", ""),
                "days_at_stage": days_at_stage, "stuck": is_stuck}
@@ -231,6 +254,40 @@ def platform_view(partner: str = "") -> str:
             "Flag pull-through deals where disti can thread network, DC, or collab "
             "on the same customer."
         ),
+    }, ensure_ascii=False)
+
+
+def lifecycle_view(partner: str = "") -> str:
+    """Pipeline grouped by CX lifecycle stage (ANALYZE→RENEW)."""
+    data = _load()
+    pkey = _find_partner(data, partner) if partner else None
+    by_lifecycle: dict = {k: [] for k in STAGE_TO_LIFECYCLE.values()}
+    by_lifecycle["expand"] = []
+
+    for d in data["deals"]:
+        if pkey and d["partner"] != pkey:
+            continue
+        if d["stage"] >= 90:
+            continue
+        enriched = enrich_deal_row(d)
+        pname = data["partners"].get(d["partner"], {}).get("name", d["partner"])
+        lc = enriched["cx_lifecycle"]
+        if lc not in by_lifecycle:
+            by_lifecycle[lc] = []
+        by_lifecycle[lc].append({
+            "deal": d["name"],
+            "partner": pname,
+            "stage": STAGES[d["stage"]],
+            "partner_goal": enriched["partner_goal"],
+            "motion": d.get("motion", ""),
+            "acv": d.get("acv", 0),
+        })
+
+    return json.dumps({
+        "headline": "Customer lifecycle view — ANALYZE through RENEW",
+        "by_lifecycle": {k: v for k, v in by_lifecycle.items() if v},
+        "stage_mapping": {str(k): v for k, v in STAGE_TO_LIFECYCLE.items()},
+        "next_step": "Call cisco-content get_content_matrix(cx_lifecycle=...) for stage-specific assets and actions.",
     }, ensure_ascii=False)
 
 
@@ -351,8 +408,20 @@ TOOLS = [
                 "acv": {"type": "number", "description": "Deal value in CAD."},
                 "close_date": {"type": "string", "description": "Expected close date YYYY-MM-DD."},
                 "notes": {"type": "string", "description": "Context notes."},
+                "cx_lifecycle": {"type": "string", "description": "Optional: analyze, place, land, adopt, expand, renew. Inferred from stage if omitted."},
             },
             "required": ["partner", "deal", "stage"],
+        },
+    },
+    {
+        "name": "lifecycle_view",
+        "description": (
+            "Open pipeline grouped by CX lifecycle stage (ANALYZE→RENEW) and partner goal persona. "
+            "Use with get_content_matrix for stage-specific playbooks."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {"partner": {"type": "string", "description": "Optional partner filter."}},
         },
     },
     {
@@ -401,8 +470,10 @@ TOOL_HANDLERS = {
     "log_touch": lambda a: log_touch(a["partner"], a["note"]),
     "upsert_deal": lambda a: upsert_deal(
         a["partner"], a["deal"], a["stage"], a.get("motion", ""),
-        a.get("acv", 0), a.get("close_date", ""), a.get("notes", "")),
+        a.get("acv", 0), a.get("close_date", ""), a.get("notes", ""),
+        a.get("cx_lifecycle", "")),
     "pipeline_view": lambda a: pipeline_view(a.get("partner", "")),
+    "lifecycle_view": lambda a: lifecycle_view(a.get("partner", "")),
     "platform_view": lambda a: platform_view(a.get("partner", "")),
     "whats_due": lambda a: whats_due(a.get("cadence", "weekly")),
     "qbr_package": lambda a: qbr_package(a["partner"]),

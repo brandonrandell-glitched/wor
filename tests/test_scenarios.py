@@ -31,6 +31,7 @@ class TestScenarios:
             "English",
             "word",
             "short",
+            "skip",
             "yes",
         ]
         resp = None
@@ -53,6 +54,7 @@ class TestScenarios:
             "skip",
             "English",
             "ppt",
+            "skip",
             "yes",
         ]
         resp = None
@@ -171,7 +173,7 @@ class TestMCPIntegration:
             },
         })
         proc = subprocess.run(
-            ["python3", str(ROOT / "mcp_servers" / "proposal_tools_mcp.py")],
+            [str(ROOT / ".venv" / "bin" / "python"), str(ROOT / "mcp_servers" / "proposal_tools_mcp.py")],
             input=call + "\n",
             capture_output=True,
             text=True,
@@ -179,5 +181,6 @@ class TestMCPIntegration:
             cwd=str(ROOT),
         )
         result = json.loads(proc.stdout.strip())
-        pain_points = result["result"]["pain_points"]
+        payload = json.loads(result["result"]["content"][0]["text"])
+        pain_points = payload["pain_points"]
         assert len(pain_points) > 0

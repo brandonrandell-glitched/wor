@@ -1,0 +1,52 @@
+{
+  "_notice": "SAMPLE commerce/renewal fixture — replace with CCW/export data on internal rebuild. No live CCW credentials.",
+  "accounts": {
+    "Acme Financial Services": {
+      "customer_account": "Acme Financial Services",
+      "contracts": [
+        {
+          "contract_id": "CNT-ACME-2024-8812",
+          "product_family": "Cisco Secure Firewall",
+          "renewal_date": "2026-11-30",
+          "days_to_renewal": 136,
+          "annual_value_cad": 185000,
+          "status": "eligible_for_auto_quote",
+          "attach_candidates": ["Cisco Duo", "Cisco Secure Access", "Cisco XDR"]
+        },
+        {
+          "contract_id": "CNT-ACME-2023-4401",
+          "product_family": "Cisco Meraki MX",
+          "renewal_date": "2026-08-15",
+          "days_to_renewal": 29,
+          "annual_value_cad": 42000,
+          "status": "renewal_at_risk",
+          "attach_candidates": ["Breach Protection by XDR", "ThousandEyes"]
+        }
+      ],
+      "license_summary": {
+        "smartnet_active": true,
+        "ea_eligible": false,
+        "consumption_model": "subscription + perpetual hybrid"
+      },
+      "champion_hint": "Director Infrastructure — renewal committee chair",
+      "value_realization": [
+        "42% reduction in VPN tickets after Secure Access pilot",
+        "SNI audit score improved from Foundational to Developing on branch security"
+      ]
+    }
+  },
+  "license_bundles": {
+    "security-expansion": {
+      "name": "Security expansion attach",
+      "products": ["Cisco Duo", "Cisco Secure Access", "Cisco XDR"],
+      "motion": "Expand from firewall/Meraki base",
+      "typical_trigger": "Renewal within 90 days + identity or SOC pain"
+    },
+    "renewal-protection": {
+      "name": "Renewal protection bundle",
+      "products": ["SmartNet renewal", "Cisco Secure Firewall support", "ThousandEyes"],
+      "motion": "Defend recurring base at renewal",
+      "typical_trigger": "Competitive displacement risk on renewal"
+    }
+  }
+}

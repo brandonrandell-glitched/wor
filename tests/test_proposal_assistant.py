@@ -94,6 +94,7 @@ class TestConversationFlow:
             "use",
             "Schedule executive briefing and technical deep-dive",
             "yes",
+            "skip",
             "yes",
         ]
         resp = None
@@ -106,7 +107,7 @@ class TestConversationFlow:
         assert isinstance(resp.json_output["Cisco Technologies to be Proposed"], list)
 
     def test_summary_field_order(self, assistant):
-        steps = ["use", "use", "Follow up next week", "yes"]
+        steps = ["use", "use", "Follow up next week", "yes", "skip"]
         for step in steps:
             resp = assistant.process_input(step)
         assert resp.phase == Phase.REVIEW
@@ -114,7 +115,7 @@ class TestConversationFlow:
         assert list(resp.summary.keys()) == labels
 
     def test_review_edit_before_confirm(self, assistant):
-        steps = ["use", "use", "Initial next steps", "yes"]
+        steps = ["use", "use", "Initial next steps", "yes", "skip"]
         for step in steps:
             resp = assistant.process_input(step)
         resp = assistant.process_input("update next steps to schedule demo")
@@ -127,7 +128,7 @@ class TestConversationFlow:
         assert "proposal building" in msg.lower()
 
     def test_no_savm_id_in_json(self, assistant):
-        steps = ["use", "use", "Next steps here", "yes", "yes"]
+        steps = ["use", "use", "Next steps here", "yes", "skip", "yes"]
         resp = None
         for step in steps:
             resp = assistant.process_input(step)

@@ -239,3 +239,12 @@ def discovery_questions(pain_points: list[str], industry: str | None = None) -> 
         "decision is already on your calendar this year?"
     )
     return questions
+
+
+def meddpicc_gaps(
+    meddpicc: dict[str, str] | None,
+    lifecycle_stage: str = "analyze",
+    pain_points: list[str] | None = None,
+) -> dict[str, Any]:
+    from lib.meddpicc import recommend_meddpicc_gaps
+    return recommend_meddpicc_gaps(meddpicc, lifecycle_stage, pain_points)

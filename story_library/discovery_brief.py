@@ -53,4 +53,10 @@ def generate_discovery_brief(
             _format_list(data.get("Discovery Questions", [])),
         ),
     ]
+    meddpicc = data.get("MEDDPICC")
+    if meddpicc and isinstance(meddpicc, dict) and meddpicc:
+        from lib.meddpicc import format_meddpicc_section
+        sections.append(("MEDDPICC Qualification", format_meddpicc_section(meddpicc)))
+    if data.get("CX Lifecycle Stage"):
+        sections.insert(1, ("CX Lifecycle Stage", data.get("CX Lifecycle Stage", "")))
     return export_docx(account, sections, path, "Discovery Prep Brief")

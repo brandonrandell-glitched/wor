@@ -12,6 +12,7 @@ from lib.gtm_tools import (
     get_customer_context,
     recommend_products,
 )
+from lib.meddpicc import meddpicc_questions, parse_meddpicc_input, recommend_meddpicc_gaps
 
 
 @dataclass
@@ -52,6 +53,8 @@ class DiscoveryAssistant:
             return self._handle_pain_points(text)
         if self.phase == "technologies_confirm":
             return self._handle_technologies(text)
+        if self.phase == "meddpicc_capture":
+            return self._handle_meddpicc(text)
         if self.phase == "review":
             return self._handle_review(text)
         if self.phase == "complete":
@@ -179,12 +182,32 @@ class DiscoveryAssistant:
             selected = parse_list_input(text)
             if selected:
                 self.collected["cisco_technologies"] = selected
+        self.phase = "meddpicc_capture"
+        qs = meddpicc_questions("analyze")
+        sample = "\n".join(f"  • {q}" for q in qs[:3])
+        return AssistantResponse(
+            message=(
+                "Optional MEDDPICC capture (recommended before the customer call).\n"
+                f"Focus at ANALYZE stage:\n{sample}\n\n"
+                "Reply with labeled lines (e.g. 'Metrics: reduce MTTR 30%') or type 'skip'."
+            ),
+            phase="meddpicc_capture",
+            workflow="discovery",
+        )
+
+    def _handle_meddpicc(self, text: str) -> AssistantResponse:
+        if text.strip().lower() not in ("skip", "skip meddpicc", "none"):
+            self.collected["meddpicc"] = parse_meddpicc_input(text)
         self.phase = "review"
         return self._build_review()
 
     def _build_review(self) -> AssistantResponse:
         pains = self.collected.get("customer_pain_points", [])
         questions = discovery_questions(pains, self.collected.get("industry"))
+        meddpicc = self.collected.get("meddpicc", {})
+        gaps = recommend_meddpicc_gaps(meddpicc, "analyze", pains)
+        for g in gaps.get("gaps", []):
+            questions.append(g["question"])
         self.collected["discovery_questions"] = questions
         summary = {
             "Customer Account Name": self.customer_account,
@@ -193,6 +216,7 @@ class DiscoveryAssistant:
             "Current Infrastructure": self.collected.get("current_infrastructure", "Skipped" if "current_infrastructure" in self.skipped else ""),
             "Customer Pain Points": ", ".join(pains),
             "Cisco Technologies": ", ".join(self.collected.get("cisco_technologies", [])),
+            "MEDDPICC": meddpicc if meddpicc else "Skipped",
             "Discovery Questions": "\n".join(f"- {q}" for q in questions),
         }
         lines = [f"  {k}: {v}" for k, v in summary.items()]
@@ -214,6 +238,8 @@ class DiscoveryAssistant:
                 "Customer Pain Points": ", ".join(self.collected.get("customer_pain_points", [])),
                 "Cisco Technologies to be Proposed": self.collected.get("cisco_technologies", []),
                 "Discovery Questions": self.collected.get("discovery_questions", []),
+                "MEDDPICC": self.collected.get("meddpicc", {}),
+                "CX Lifecycle Stage": "analyze",
             }
             self._final_json = output
             import json
